@@ -169,6 +169,23 @@ The following code illustrates how to define a functional template.
         
 {% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/annotations-functionalTemplate" %}
 
+### Refresh annotation template
+
+When you need to update the rendered template of annotations at runtime based on changes to the annotation's data properties, you can use the [`refreshTemplate`](../../api/diagram#refreshtemplate) method. This method re-renders the template for the specified annotation or all annotations if no parameter is provided.
+
+The following code illustrates how to update annotation data and refresh the rendered template.
+
+{% tabs %}
+{% highlight js tabtitle="index.js" %}
+{% include code-snippet/diagram-sdk/javascript/annotations-refreshTemplate/index.js %}
+{% endhighlight %}
+{% highlight html tabtitle="index.html" %}
+{% include code-snippet/diagram-sdk/javascript/annotations-refreshTemplate/index.html %}
+{% endhighlight %}
+{% endtabs %}
+        
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/annotations-refreshTemplate" %}
+
 ## Text align
 
 The [`textAlign`](../../api/diagram/textStyleModel#textalign) property of annotation allows you to set how the text should be aligned (left, right, center, or justify) inside the text block. The following codes illustrate how to set textAlign for an annotation.

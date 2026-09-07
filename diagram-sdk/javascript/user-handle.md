@@ -174,6 +174,39 @@ The diagram provides support to show a tooltip when the mouse hovers over any us
 
 You can also customize other properties of the tooltip, such as [`position`](../api/diagram/diagramTooltipModel#position), [`width`](../api/diagram/diagramTooltipModel#width), [`height`](../api/diagram/diagramTooltipModel#height), etc. For more information refer to the [`tooltip`](./tool-tip) section.
 
+## Refresh user handle template
+
+When you need to update the rendered template of user handles at runtime based on changes to the user handle's data properties, you can use the [`refreshTemplate`](../api/diagram#refreshtemplate) method. This method re-renders the template for the specified user handle or all user handles if no parameter is provided.
+
+The following code illustrates how to update user handle data and refresh the rendered template.
+
+{% if page.publishingplatform == "typescript" %}
+
+ {% tabs %}
+{% highlight ts tabtitle="index.ts" %}
+{% include code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate/index.ts %}
+{% endhighlight %}
+{% highlight html tabtitle="index.html" %}
+{% include code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate/index.html %}
+{% endhighlight %}
+{% endtabs %}
+        
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate" %}
+
+{% elsif page.publishingplatform == "javascript" %}
+
+{% tabs %}
+{% highlight js tabtitle="index.js" %}
+{% include code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate/index.js %}
+{% endhighlight %}
+{% highlight html tabtitle="index.html" %}
+{% include code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate/index.html %}
+{% endhighlight %}
+{% endtabs %}
+
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate" %}
+{% endif %}
+
 ## Appearance
 
 The appearance of the user handle can be customized by using the [`size`](../api/diagram/userHandleModel#size), [`borderColor`](../api/diagram/userHandleModel#bordercolor), [`backgroundColor`](../api/diagram/userHandleModel#backgroundcolor), [`borderWidth`](../api/diagram/userHandleModel#borderwidth), [`visible`](../api/diagram/userHandleModel#visible), and [`pathColor`](../api/diagram/userHandleModel#pathcolor) properties of the userHandles. 
@@ -536,6 +569,39 @@ The diagram provides support to show a tooltip when the mouse hovers over any fi
 {% endif %}
 
 You can also customize other properties of the tooltip, such as [`position`](../api/diagram/diagramTooltipModel#position), [`width`](../api/diagram/diagramTooltipModel#width), [`height`](../api/diagram/diagramTooltipModel#height), etc. For more information refer to the [`tooltip`](./tool-tip) section.
+
+### Refresh fixed user handle template
+
+When you need to update the rendered template of fixed user handles at runtime based on changes to the fixed user handle's data properties, you can use the [`refreshTemplate`](../api/diagram#refreshtemplate) method. This method re-renders the template for the specified fixed user handle or all fixed user handles if no parameter is provided.
+
+The following code illustrates how to update fixed user handle data and refresh the rendered template.
+
+{% if page.publishingplatform == "typescript" %}
+
+ {% tabs %}
+{% highlight ts tabtitle="index.ts" %}
+{% include code-snippet/diagram-sdk/javascript/fixeduserhandle-refreshTemplate/index.ts %}
+{% endhighlight %}
+{% highlight html tabtitle="index.html" %}
+{% include code-snippet/diagram-sdk/javascript/fixeduserhandle-refreshTemplate/index.html %}
+{% endhighlight %}
+{% endtabs %}
+        
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/fixeduserhandle-refreshTemplate" %}
+
+{% elsif page.publishingplatform == "javascript" %}
+
+{% tabs %}
+{% highlight js tabtitle="index.js" %}
+{% include code-snippet/diagram-sdk/javascript/fixeduserhandle-refreshTemplate/index.js %}
+{% endhighlight %}
+{% highlight html tabtitle="index.html" %}
+{% include code-snippet/diagram-sdk/javascript/fixeduserhandle-refreshTemplate/index.html %}
+{% endhighlight %}
+{% endtabs %}
+
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/fixeduserhandle-refreshTemplate" %}
+{% endif %}
 
 ### Appearance
 

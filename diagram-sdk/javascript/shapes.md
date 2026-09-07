@@ -304,6 +304,39 @@ Refer the code example below.
 {% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/shapes-fnNodeTemplate" %}
 {% endif %}
 
+### Refresh node template
+
+When you need to update the rendered template of nodes at runtime based on changes to the node's data properties, you can use the [`refreshTemplate`](../api/diagram#refreshtemplate) method. This method re-renders the template for the specified node or all nodes if no parameter is provided.
+
+The following code illustrates how to update node data and refresh the rendered template.
+
+{% if page.publishingplatform == "typescript" %}
+
+ {% tabs %}
+{% highlight ts tabtitle="index.ts" %}
+{% include code-snippet/diagram-sdk/javascript/shapes-refreshTemplate/index.ts %}
+{% endhighlight %}
+{% highlight html tabtitle="index.html" %}
+{% include code-snippet/diagram-sdk/javascript/shapes-refreshTemplate/index.html %}
+{% endhighlight %}
+{% endtabs %}
+        
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/shapes-refreshTemplate" %}
+
+{% elsif page.publishingplatform == "javascript" %}
+
+{% tabs %}
+{% highlight js tabtitle="index.js" %}
+{% include code-snippet/diagram-sdk/javascript/shapes-refreshTemplate/index.js %}
+{% endhighlight %}
+{% highlight html tabtitle="index.html" %}
+{% include code-snippet/diagram-sdk/javascript/shapes-refreshTemplate/index.html %}
+{% endhighlight %}
+{% endtabs %}
+
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/shapes-refreshTemplate" %}
+{% endif %}
+
 ## Native
 
 Diagram provides support to embed SVG element into a node. The shape property of node allows you to set the type of node. To create a [`native`](../api/diagram/node#shape) node, it should be set as **native**. The following code illustrates how a native node is created.
