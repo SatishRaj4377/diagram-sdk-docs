@@ -6,6 +6,10 @@ var nodes = [
     height: 100,
     width: 100,
     style: { fill: '#6BA5D7', strokeColor: '#6BA5D7' },
+    data: {
+      action: 'Edit',
+      color: '#4CAF50',
+    },
   },
 ];
 
@@ -17,17 +21,16 @@ var userHandles = [
     offset: 1,
     side: 'Right',
     margin: { top: 0, bottom: 0, left: 0, right: 10 },
-    addInfo: {
-      content: 'Edit',
-      color: '#4CAF50',
-    },
   },
 ];
 
-function userHandleTemplate(obj) {
-  return `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:${obj.addInfo.color};border-radius:50%;color:white;font-size:12px;font-weight:bold;">
-            ${obj.addInfo.content}
-          </div>`;
+function userHandleTemplate(obj, node) {
+  if (node && node.data) {
+    return `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:${node.data.color};border-radius:50%;color:white;font-size:12px;font-weight:bold;">
+              ${node.data.action}
+            </div>`;
+  }
+  return '';
 }
 
 var diagram = new ej.diagrams.Diagram(
@@ -43,11 +46,11 @@ var diagram = new ej.diagrams.Diagram(
   '#element'
 );
 
-// Update the user handle data and refresh the template
+// Update the node data and refresh the user handle template
 document.getElementById('updateBtn').onclick = function () {
-  // Update the user handle's additional data
-  diagram.selectedItems.userHandles[0].addInfo.content = 'Delete';
-  diagram.selectedItems.userHandles[0].addInfo.color = '#FF5722';
+  // Update the node's data property which is used in the user handle template
+  diagram.nodes[0].data.action = 'Delete';
+  diagram.nodes[0].data.color = '#FF5722';
   // Refresh the template to reflect the changes
-  diagram.refreshTemplate(diagram.selectedItems.userHandles[0]);
+  diagram.refreshTemplate(diagram.selectedItems.userHandles[0], diagram.nodes[0]);
 };
