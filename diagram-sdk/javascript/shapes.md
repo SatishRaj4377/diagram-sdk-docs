@@ -306,9 +306,11 @@ Refer the code example below.
 
 ### Refresh node template
 
-When you need to update the rendered template of nodes at runtime based on changes to the node's data properties, you can use the [`refreshTemplate`](../api/diagram#refreshtemplate) method. This method re-renders the template for the specified node or all nodes if no parameter is provided.
+Use the [`refreshTemplate`](../api/diagram#refreshtemplate) method to refresh a node template after modifying its properties.
 
-The following code illustrates how to update node data and refresh the rendered template.
+To refresh a specific node template, provide the node ID. If no ID is provided, the method refreshes all node templates.
+
+The following example demonstrates how to modify a node and refresh its template.
 
 {% if page.publishingplatform == "typescript" %}
 

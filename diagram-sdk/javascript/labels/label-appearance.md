@@ -171,9 +171,11 @@ The following code illustrates how to define a functional template.
 
 ### Refresh annotation template
 
-When you need to update the rendered template of annotations at runtime based on changes to the annotation's data properties, you can use the [`refreshTemplate`](../../api/diagram#refreshtemplate) method. This method re-renders the template for the specified annotation or all annotations if no parameter is provided.
+Use the [`refreshTemplate`](../../api/diagram#refreshtemplate) method to refresh an annotation template after modifying its properties.
 
-The following code illustrates how to update annotation data and refresh the rendered template.
+To refresh a specific annotation template, provide the annotation ID. If no ID is provided, the method refreshes all annotation templates.
+
+The following example demonstrates how to modify an annotation and refresh its template.
 
 {% tabs %}
 {% highlight js tabtitle="index.js" %}

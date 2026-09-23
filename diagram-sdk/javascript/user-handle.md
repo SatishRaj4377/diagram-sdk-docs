@@ -176,9 +176,11 @@ You can also customize other properties of the tooltip, such as [`position`](../
 
 ## Refresh user handle template
 
-When you need to update the rendered template of user handles at runtime based on changes to the user handle's data properties, you can use the [`refreshTemplate`](../api/diagram#refreshtemplate) method. This method re-renders the template for the specified user handle or all user handles if no parameter is provided.
+Use the [`refreshTemplate`](../api/diagram#refreshtemplate) method to refresh a user handle template after modifying its properties.
 
-The following code illustrates how to update user handle data and refresh the rendered template.
+To refresh a specific user handle template, provide the user handle ID. If no ID is provided, the method refreshes all user handle templates.
+
+The following example demonstrates how to modify a user handle and refresh its template.
 
 {% if page.publishingplatform == "typescript" %}
 
