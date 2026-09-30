@@ -562,9 +562,9 @@ A complete working sample can be downloaded from [GitHub](https://github.com/Syn
 
 A complete working sample can be downloaded from [GitHub](https://github.com/SyncfusionExamples/Blazor-UG-Examples/blob/master/Diagram/Server/Pages/Connectors/Customization/CustomProperty.razor)
 
-## How to Create Connector Between Existing Nodes
+## How to Create a Connector Between Existing Nodes
 
-You can create a connector between two existing nodes by assigning the [SourceID](https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_SourceID) and [TargetID](https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_TargetID) properties of the connector.
+A connector can be created between existing nodes by setting the [SourceID](https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_SourceID) and [TargetID](https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_TargetID) properties of the connector.
 
 The following example demonstrates how to create a connector between two existing nodes.
 
@@ -617,11 +617,11 @@ The following example demonstrates how to create a connector between two existin
 
 A complete working sample can be downloaded from [GitHub](https://github.com/SyncfusionExamples/Blazor-UG-Examples/blob/master/Diagram/Server/Pages/Connectors/Customization/ConnectorBetweenExistingNodes.razor)
 
-## How to Reconnect Connector Endpoints at Runtime
+## How to Change Connector Endpoints at Runtime
 
-You can reconnect a connector's source or target endpoint at runtime by updating its `SourceID` or `TargetID` property. This is useful when the relationship between nodes changes and the connector needs to be linked to a different node.
+The source or target node of an existing connector can be changed at runtime by updating its `SourceID` or `TargetID` property. This is useful when the relationship between nodes changes and the connector needs to be linked to a different node.
 
-The following example demonstrates how to reconnect the source and target endpoints of a connector at runtime.
+The following example demonstrates how to change the source and target nodes of a connector at runtime.
 
 ```cshtml
 @using Syncfusion.Blazor.Diagram
@@ -720,9 +720,9 @@ A complete working sample can be downloaded from [GitHub](https://github.com/Syn
 
 ## How to Change Connector Type at Runtime
 
-Connector types can be changed dynamically at runtime by updating the connector's `Type` property. This is useful when you need to switch a connector between `Straight`, `Orthogonal`, and `Bezier` based on user selection.
+A connector's type can be changed at runtime by updating its `Type` property, allowing the connector to switch between Straight, Orthogonal, and Bezier types.
 
-The following example demonstrates how to change a connector's type at runtime using a dropdown list.
+The following example demonstrates how to change a connector's type at runtime.
 
 ```cshtml
 @using Syncfusion.Blazor.Diagram
@@ -788,7 +788,6 @@ The following example demonstrates how to change a connector's type at runtime u
         Connectors.Add(new Connector()
         {
             ID = "connector1",
-
             SourcePoint = new DiagramPoint()
             {
                 X = 100,

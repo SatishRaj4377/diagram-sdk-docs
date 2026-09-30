@@ -22,21 +22,19 @@ Diagram supports creating several kinds of nodes. The available shape types incl
 
 ## Which Node Type Should I Use?
 
-The Diagram component supports multiple node types, each designed for specific scenarios. Use the following table as a quick reference when selecting a node type.
+The Diagram Component supports multiple node types for different diagramming scenarios. The following table helps identify the most suitable node type based on the intended use case.
 
-| Scenario | Recommended Node Type | Why |
+| Scenario | Recommended Node Type | Purpose |
 | -------- | --------------------- | --- |
-| Standard diagrams and flowcharts | Basic Node | Best for common shapes such as rectangles, ellipses, diamonds, and flowchart elements. |
-| Displaying text content | Text Node | Best for rendering standalone text within the diagram. |
-| Displaying images | Image Node | Best for logos, icons, photos, and image-based visual elements. |
-| Custom visuals and symbols | Path Node | Best when you need a custom geometry, icon, or symbol. |
-| User interface inside a diagram | HTML Node | Best when the node must render controls, charts, or interactive content. |
-| SVG-based graphics | SVG Node | Best for scalable vector graphics and custom SVG content. |
-| Business process diagrams | BPMN Node | Best for BPMN events, activities, gateways, and process notation. |
-| Process flow diagrams | Flow Node | Best for built-in flowchart shapes and workflow representations. |
-| Swimlane diagrams | Swimlane | Best for process flows grouped by departments, roles, or lanes. |
-
-If you are unsure which node type to use, start with a **Basic Node**. Use **Text** or **Image** nodes for specialized content, **Flow** nodes for workflow diagrams, **Path** or **SVG** nodes for custom visuals, **HTML** nodes for interactive content, and **BPMN** nodes when the diagram must follow Business Process Model and Notation (BPMN) standards.
+| Standard diagrams and custom workflows | Basic Node | Common shapes such as rectangles, ellipses, polygons, and general-purpose diagram elements. |
+| Flowchart diagrams| Flow Node | Built-in flowchart shapes such as Process, Decision, Document, and Terminator. |
+| Displaying text content | Text Node | Standalone text labels, annotations, and descriptive content. |
+| Displaying images | Image Node | Logos, icons, photos, and other image-based content. |
+| Business process modeling | BPMN Node | BPMN events, activities, gateways, subprocesses, and other BPMN-specific elements. |
+| Process diagrams organized by lanes | Swimlane | Processes grouped by departments, teams, roles, or phases. |
+| Custom visuals and symbols | Path Node | Custom vector paths, icons, and symbol definitions. |
+| SVG-based graphics | SVG Node | Scalable vector graphics and custom SVG content. |
+| User interfaces within a diagram | HTML Node | Interactive content such as forms, controls, charts, and custom HTML elements. |
 
 ## How to Create a Text Node
 
@@ -572,9 +570,9 @@ A complete working sample can be downloaded from [GitHub](https://github.com/Syn
 
 {% previewsample "https://blazorplayground.syncfusion.com/embed/rXBRDdVyJASxgMWM?appbar=false&editor=false&result=true&errorlist=false&theme=fluent2" backgroundimage "[BPMN Node in Blazor Diagram](images/BPMNShape.webp)" %}
 
-## Change a Node's Shape Type at Runtime
+## How to Change a Node's Shape Type at Runtime
 
-You can change a node's shape type at runtime in the Blazor Diagram by updating its `Shape` property. This allows you to switch a node between different shape types, such as Basic, Flow, HTML, Image, and Path, based on user interaction or application logic.
+A node's shape type can be changed at runtime by updating its `Shape` property, allowing the node to switch between shape types such as Basic, Flow, HTML, Image, and Path.
 
 The following example demonstrates how to change a node's shape type at runtime.
 

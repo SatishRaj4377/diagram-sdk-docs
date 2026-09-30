@@ -431,7 +431,7 @@ A complete working sample can be downloaded from [GitHub](https://github.com/Syn
 
 ## How to Change Node Position at Runtime
 
-A node's position can be changed at runtime by updating its `OffsetX` and `OffsetY` properties. This helps when you need to move a node programmatically across the diagram canvas.
+A node's position can be changed at runtime by updating its `OffsetX` and `OffsetY` properties to move the node within the diagram.
 
 The following example demonstrates how to change the position of a node at runtime.
 

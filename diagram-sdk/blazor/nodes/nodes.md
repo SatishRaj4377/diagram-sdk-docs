@@ -119,9 +119,9 @@ A complete working sample can be downloaded from [GitHub](https://github.com/Syn
 
 ## How to Add Multiple Nodes at Runtime
 
-Multiple nodes can be added dynamically to the Blazor Diagram Component by creating node instances and adding them to the Nodes collection at runtime.
+Multiple nodes can be added at runtime by creating node instances and adding them to the `Nodes` collection.
 
- The following code explains how to add a multiple nodes at runtime.
+ The following example demonstrates how to add multiple nodes at runtime.
 
 ```cshtml
 @using Syncfusion.Blazor.Diagram
@@ -300,7 +300,7 @@ Nodes can be generated automatically with the information provided through a dat
 
 A selected node can be removed from the diagram at runtime by using the `Remove` method.
 
-The following example demonstrates how to remove the currently selected node from the diagram at runtime.
+The following example demonstrates how to remove a selected node at runtime.
 
 ```cshtml
 @using Syncfusion.Blazor.Diagram
@@ -357,9 +357,9 @@ private void RemoveNodes()
 
 ## How to Remove a Node by ID at Runtime
 
-A node can be removed from the diagram at runtime by using its `ID` value. This approach is useful when you want to delete a specific node without relying on the current selection.
+A node can be removed at runtime using its `ID`, allowing a specific node to be deleted from the diagram.
 
-The following example shows how to remove a node by specifying its `ID` at runtime.
+The following example demonstrates how to remove a node by ID at runtime.
 
 ```cshtml
 @using Syncfusion.Blazor.Diagram
@@ -413,9 +413,9 @@ The following example shows how to remove a node by specifying its `ID` at runti
 
 ## How to Remove Multiple Nodes at Runtime
 
-Multiple nodes can be removed from the diagram at runtime by iterating through a collection of node IDs and removing the corresponding nodes from the diagram.
+Multiple nodes can be removed at runtime by using their IDs to identify and remove the corresponding nodes from the diagram.
 
-The following example demonstrates how to remove multiple nodes dynamically at runtime.
+The following example demonstrates how to remove multiple nodes at runtime.
 
 ```cshtml
 @using Syncfusion.Blazor.Diagram
