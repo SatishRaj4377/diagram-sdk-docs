@@ -1,7 +1,7 @@
 ---
 layout: post
 title: BPMN Customization in Blazor Diagram Component | Syncfusion®
-description: Learn how to customize BPMN shapes in the Blazor Diagram Component.
+description: Learn how to customize BPMN shapes in the Blazor Diagram Component by modifying shape types, appearance, and behavior dynamically.
 platform: diagram-sdk
 control: Blazor Diagram Component
 documentation: ug
