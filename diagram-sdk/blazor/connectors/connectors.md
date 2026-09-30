@@ -557,7 +557,7 @@ A complete working sample can be downloaded from [GitHub](https://github.com/Syn
 
 ## How to Remove a Selected Connector at Runtime
 
-A selected connector can be removed from the diagram at runtime by using the `Remove` method. This is useful when you need to delete the connector currently selected by the user.
+A selected connector can be removed at runtime using the `Remove` method. This is useful when you need to delete the connector currently selected by the user.
  
 The following example demonstrates how to remove the selected connector at runtime.
 
@@ -624,9 +624,9 @@ public void RemoveConnector()
 
 ## How to Remove a Connector by ID at Runtime
 
-A connector can be removed at runtime by using its `ID`. This is useful when you need to delete a specific connector programmatically without relying on the current selection.
+A connector can be removed at runtime using its `ID`, enabling the removal of a specific connector programmatically.
 
-The following example demonstrates how to remove a connector by its `ID` at runtime.
+The following example demonstrates how to remove a connector by ID at runtime.
 
 ```cshtml
 @using Syncfusion.Blazor.Diagram
@@ -675,20 +675,22 @@ A complete working sample can be downloaded from [GitHub](https://github.com/Syn
 
 ## How to Remove Multiple Connectors at Runtime
 
-Multiple connectors can be removed at runtime by iterating through a collection of connector IDs and removing the corresponding connectors from the `Connectors` collection.
+Multiple connectors can be removed at runtime by identifying the required connectors using their IDs and removing them from the `Connectors` collection.
 
-The following example demonstrates how to remove multiple connectors dynamically at runtime.
+The following example demonstrates how to remove multiple connectors at runtime.
 
 ```cshtml
 @using Syncfusion.Blazor.Diagram
 @using Syncfusion.Blazor.Buttons
 
 <SfButton Content="Remove Multiple Connectors" OnClick="@RemoveMultipleConnectors" />
-<SfDiagramComponent Width="1000px" Height="500px" Connectors="@_connectors" />
+<SfDiagramComponent @ref="_diagram" Width="1000px" Height="500px" Connectors="@_connectors" />
 
 @code
 {
     private DiagramObjectCollection<Connector> _connectors = new DiagramObjectCollection<Connector>();
+    // Reference the diagram
+    private SfDiagramComponent _diagram;
 
     protected override void OnInitialized()
     {
@@ -717,8 +719,9 @@ The following example demonstrates how to remove multiple connectors dynamically
         });
     }
 
-    private void RemoveMultipleConnectors()
+    private async Task RemoveMultipleConnectors()
     {
+        _diagram.BeginUpdate();
         string[] connectorIds = { "connector2", "connector3" };
 
         foreach (string connectorId in connectorIds)
@@ -729,6 +732,7 @@ The following example demonstrates how to remove multiple connectors dynamically
                 _connectors.Remove(connector);
             }
         }
+        await _diagram.EndUpdateAsync();
     }
 }
 ```
