@@ -200,6 +200,23 @@ The below example code demonstrating different types of user handles.
 
 {% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/userhandle-cs7" %}
 
+## Refresh user handle template
+
+Use the [`refreshTemplate`](../api/diagram#refreshtemplate) method to refresh a user handle template at runtime. Reassign the new template function to the [`userHandleTemplate`](../api/diagram#userhandletemplate) property and call `refreshTemplate()` to update the user handle dynamically.
+
+The following example demonstrates how to change a user handle template and refresh it.
+
+{% tabs %}
+{% highlight js tabtitle="index.js" %}
+{% include code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate/index.js %}
+{% endhighlight %}
+{% highlight html tabtitle="index.html" %}
+{% include code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate/index.html %}
+{% endhighlight %}
+{% endtabs %}
+
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate" %}
+
 ## User handle events
 
 When interacting with user handles, certain events are triggered that can be used to customize the appearance and functionality of the handles. The user handle events are explained below.

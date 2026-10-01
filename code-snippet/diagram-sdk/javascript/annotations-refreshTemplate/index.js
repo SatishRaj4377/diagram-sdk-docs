@@ -37,5 +37,5 @@ document.getElementById('updateBtn').onclick = function () {
   diagram.nodes[0].annotations[0].addInfo.label = 'Process';
   diagram.nodes[0].annotations[0].addInfo.priority = 'Low';
   // Refresh the template to reflect the changes
-  diagram.refreshTemplate(diagram.nodes[0].annotations[0]);
+  diagram.refreshTemplate(diagram.nodes[0].annotations[0], diagram.nodes[0]);
 };
