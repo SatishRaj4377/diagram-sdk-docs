@@ -1,7 +1,7 @@
 var node = {
   id: 'node1',
-  offsetX: 250,
-  offsetY: 250,
+  offsetX: 150,
+  offsetY: 150,
   width: 120,
   height: 120,
   shape: {

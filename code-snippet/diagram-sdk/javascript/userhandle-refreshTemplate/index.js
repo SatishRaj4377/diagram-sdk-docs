@@ -1,8 +1,8 @@
 var nodes = [
   {
     id: 'node1',
-    offsetX: 300,
-    offsetY: 300,
+    offsetX: 150,
+    offsetY: 150,
     height: 100,
     width: 100,
     style: { fill: '#6BA5D7', strokeColor: 'white' },
