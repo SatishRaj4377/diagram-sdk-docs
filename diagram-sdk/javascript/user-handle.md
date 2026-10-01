@@ -110,25 +110,6 @@ The diagram provides support to show a tooltip when the mouse hovers over any us
 
 You can also customize other properties of the tooltip, such as [`position`](../api/diagram/diagramTooltipModel#position), [`width`](../api/diagram/diagramTooltipModel#width), [`height`](../api/diagram/diagramTooltipModel#height), etc. For more information refer to the [`tooltip`](./tool-tip) section.
 
-## Refresh user handle template
-
-Use the [`refreshTemplate`](../api/diagram#refreshtemplate) method to refresh a user handle template after modifying its properties.
-
-To refresh a specific user handle template, provide the user handle ID. If no ID is provided, the method refreshes all user handle templates.
-
-The following example demonstrates how to modify a user handle and refresh its template.
-
-{% tabs %}
-{% highlight js tabtitle="index.js" %}
-{% include code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate/index.js %}
-{% endhighlight %}
-{% highlight html tabtitle="index.html" %}
-{% include code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate/index.html %}
-{% endhighlight %}
-{% endtabs %}
-
-{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate" %}
-
 ## Appearance
 
 The appearance of the user handle can be customized by using the [`size`](../api/diagram/userHandleModel#size), [`borderColor`](../api/diagram/userHandleModel#bordercolor), [`backgroundColor`](../api/diagram/userHandleModel#backgroundcolor), [`borderWidth`](../api/diagram/userHandleModel#borderwidth), [`visible`](../api/diagram/userHandleModel#visible), and [`pathColor`](../api/diagram/userHandleModel#pathcolor) properties of the userHandles. 
