@@ -110,25 +110,6 @@ The JavaScript Diagram provides support to show a tooltip when the mouse hovers 
 
 You can also customize other properties of the tooltip, such as [`position`](../api/diagram/diagramTooltipModel#position), [`width`](../api/diagram/diagramTooltipModel#width), [`height`](../api/diagram/diagramTooltipModel#height), etc. For more information refer to the [`tooltip`](./tool-tip) section.
 
-## Refresh user handle template
-
-Use the [`refreshTemplate`](../api/diagram#refreshtemplate) method to refresh a user handle template after modifying its properties.
-
-To refresh a specific user handle template, provide the user handle ID. If no ID is provided, the method refreshes all user handle templates.
-
-The following example demonstrates how to modify a user handle and refresh its template.
-
-{% tabs %}
-{% highlight js tabtitle="index.js" %}
-{% include code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate/index.js %}
-{% endhighlight %}
-{% highlight html tabtitle="index.html" %}
-{% include code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate/index.html %}
-{% endhighlight %}
-{% endtabs %}
-
-{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate" %}
-
 ## Appearance
 
 The appearance of the user handle can be customized by using the [`size`](../api/diagram/userHandleModel#size), [`borderColor`](../api/diagram/userHandleModel#bordercolor), [`backgroundColor`](../api/diagram/userHandleModel#backgroundcolor), [`borderWidth`](../api/diagram/userHandleModel#borderwidth), [`visible`](../api/diagram/userHandleModel#visible), and [`pathColor`](../api/diagram/userHandleModel#pathcolor) properties of the userHandles. 
@@ -199,6 +180,23 @@ The below example code demonstrating different types of user handles.
 {% endtabs %}
 
 {% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/userhandle-cs7" %}
+
+## Refresh user handle template
+
+Use the [`refreshTemplate`](../api/diagram#refreshtemplate) method to refresh a user handle template at runtime. Reassign the new template function to the [`userHandleTemplate`](../api/diagram#userhandletemplate) property and call `refreshTemplate()` to update the user handle dynamically.
+
+The following example demonstrates how to change a user handle template and refresh it.
+
+{% tabs %}
+{% highlight js tabtitle="index.js" %}
+{% include code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate/index.js %}
+{% endhighlight %}
+{% highlight html tabtitle="index.html" %}
+{% include code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate/index.html %}
+{% endhighlight %}
+{% endtabs %}
+
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/userhandle-refreshTemplate" %}
 
 ## User handle events
 
@@ -363,23 +361,6 @@ The JavaScript Diagram provides support to show a tooltip when the mouse hovers 
 {% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/fixeduserhandle-cs3" %}
 
 You can also customize other properties of the tooltip, such as [`position`](../api/diagram/diagramTooltipModel#position), [`width`](../api/diagram/diagramTooltipModel#width), [`height`](../api/diagram/diagramTooltipModel#height), etc. For more information refer to the [`tooltip`](./tool-tip) section.
-
-### Refresh fixed user handle template
-
-When you need to update the rendered template of fixed user handles at runtime based on changes to the fixed user handle's data properties, you can use the [`refreshTemplate`](../api/diagram#refreshtemplate) method. This method re-renders the template for the specified fixed user handle or all fixed user handles if no parameter is provided.
-
-The following code illustrates how to update fixed user handle data and refresh the rendered template.
-
-{% tabs %}
-{% highlight js tabtitle="index.js" %}
-{% include code-snippet/diagram-sdk/javascript/fixeduserhandle-refreshTemplate/index.js %}
-{% endhighlight %}
-{% highlight html tabtitle="index.html" %}
-{% include code-snippet/diagram-sdk/javascript/fixeduserhandle-refreshTemplate/index.html %}
-{% endhighlight %}
-{% endtabs %}
-
-{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/fixeduserhandle-refreshTemplate" %}
 
 ### Appearance
 

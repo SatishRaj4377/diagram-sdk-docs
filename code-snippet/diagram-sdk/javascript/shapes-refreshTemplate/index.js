@@ -1,7 +1,7 @@
 var node = {
   id: 'node1',
-  offsetX: 250,
-  offsetY: 250,
+  offsetX: 150,
+  offsetY: 150,
   width: 120,
   height: 120,
   shape: {
@@ -14,7 +14,7 @@ var node = {
 };
 
 function nodeTemplate(obj) {
-  return `<div style="background:#e3165b;color:white;padding:10px;border-radius:5px;text-align:center;height:100%;width:100%;display:flex;flex-direction:column;justify-content:center;">
+  return `<div style="background:#e3165b;color:white;border-radius:5px;text-align:center;height:100%;width:100%;display:flex;flex-direction:column;justify-content:center;">
             <div style="font-weight:bold;font-size:14px;">${obj.addInfo.title}</div>
             <div style="font-size:12px;margin-top:5px;">${obj.addInfo.department}</div>
           </div>`;
