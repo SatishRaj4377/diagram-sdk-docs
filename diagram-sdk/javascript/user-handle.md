@@ -381,23 +381,6 @@ The diagram provides support to show a tooltip when the mouse hovers over any fi
 
 You can also customize other properties of the tooltip, such as [`position`](../api/diagram/diagramTooltipModel#position), [`width`](../api/diagram/diagramTooltipModel#width), [`height`](../api/diagram/diagramTooltipModel#height), etc. For more information refer to the [`tooltip`](./tool-tip) section.
 
-### Refresh fixed user handle template
-
-When you need to update the rendered template of fixed user handles at runtime based on changes to the fixed user handle's data properties, you can use the [`refreshTemplate`](../api/diagram#refreshtemplate) method. This method re-renders the template for the specified fixed user handle or all fixed user handles if no parameter is provided.
-
-The following code illustrates how to update fixed user handle data and refresh the rendered template.
-
-{% tabs %}
-{% highlight js tabtitle="index.js" %}
-{% include code-snippet/diagram-sdk/javascript/fixeduserhandle-refreshTemplate/index.js %}
-{% endhighlight %}
-{% highlight html tabtitle="index.html" %}
-{% include code-snippet/diagram-sdk/javascript/fixeduserhandle-refreshTemplate/index.html %}
-{% endhighlight %}
-{% endtabs %}
-
-{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/fixeduserhandle-refreshTemplate" %}
-
 ### Appearance
 
 The appearance of the fixed user handle can be customized by using the [`cornerRadius`](../api/diagram/nodeFixedUserHandleModel#cornerradius), [`fill`](../api/diagram/nodeFixedUserHandleModel#fill), [`handleStrokeColor`](../api/diagram/nodeFixedUserHandleModel#handlestrokecolor), [`handleStrokeWidth`](../api/diagram/nodeFixedUserHandleModel#handlestrokewidth), [`iconStrokeColor`](../api/diagram/nodeFixedUserHandleModel#iconstrokecolor), [`iconStrokeWidth`](../api/diagram/nodeFixedUserHandleModel#iconstrokewidth) and [`visibility`](../api/diagram/nodeFixedUserHandleModel#visibility) properties of the fixed user handles.
