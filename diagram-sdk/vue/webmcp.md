@@ -101,8 +101,6 @@ export default {
 {% endhighlight %}
 {% endtabs %}
 
-N> The `provide('diagram', [WebMcpDiagram])` call registers the WebMCP module with the Diagram component. The key `diagram` matches the module name of the Diagram control.
-
 ### Step 3: Register Diagram tools
 
 Set the `enableWebMcp` property to `true` to enable WebMCP integration.

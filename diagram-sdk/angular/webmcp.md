@@ -80,8 +80,6 @@ import {
 export class AppComponent {}
 ```
 
-N> The `WebMcpDiagramService` provider is registered by the `DiagramAllModule`. If you use `DiagramAllModule` in your application, the service is already available and you do not need to declare it again.
-
 ### Step 3: Register Diagram tools
 
 Set the `enableWebMcp` property to `true` to enable WebMCP integration.

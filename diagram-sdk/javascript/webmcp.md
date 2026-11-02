@@ -1,7 +1,7 @@
 ---
 layout: post
-title: WebMCP tool integration for JavaScript Diagram | Syncfusion
-description: Learn how to integrate WebMCP with the Syncfusion JavaScript Diagram to enable AI interaction, configure tools, and monitor execution.
+title: WebMCP tool integration for JavaScript Diagram | Syncfusion®
+description: Learn how to integrate WebMCP with the Syncfusion® JavaScript Diagram to enable AI interaction, configure tools, and monitor execution.
 platform: diagram-sdk
 control: Diagram
 publishingplatform: diagram-sdk
@@ -62,7 +62,8 @@ After completing the setup, follow the steps below to enable WebMCP integration.
 
 ### Step 2: Enable WebMCP support
 
-Inject the WebMCP module `WebMcpDiagram` into the Diagram control to make WebMCP functionality available.
+Import the WebMCP module `WebMcpDiagram` and inject it into the Diagram control to make WebMCP functionality available.
+
 
 ```html
 <!DOCTYPE html>
@@ -94,8 +95,6 @@ var diagram = new ej.diagrams.Diagram({
 
 diagram.appendTo('#diagram');
 ```
-
-N> The `ej.diagrams.WebMcpDiagram` module is available in the `ej2-diagrams` package. The `Inject` call is required when you reference the combined `ej2.min.js` script, because that bundle does not register the WebMCP module by itself.
 
 ### Step 3: Register Diagram tools
 

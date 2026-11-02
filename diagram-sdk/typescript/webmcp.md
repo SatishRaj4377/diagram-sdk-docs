@@ -1,7 +1,7 @@
 ---
 layout: post
-title: WebMCP tool integration for TypeScript Diagram | Syncfusion
-description: Learn how to integrate WebMCP with the Syncfusion TypeScript Diagram control to enable AI interaction, configure tools, and monitor execution.
+title: WebMCP tool integration for TypeScript Diagram | Syncfusion®
+description: Learn how to integrate WebMCP with the Syncfusion® TypeScript Diagram control to enable AI interaction, configure tools, and monitor execution.
 platform: diagram-sdk
 control: Diagram
 publishingplatform: diagram-sdk

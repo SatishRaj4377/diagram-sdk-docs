@@ -1,7 +1,7 @@
 ---
 layout: post
-title: WebMCP tool integration for React Diagram | Syncfusion
-description: Learn how to integrate WebMCP with the Syncfusion React Diagram to enable AI interaction, configure tools, and monitor execution.
+title: WebMCP tool integration for React Diagram | Syncfusion®
+description: Learn how to integrate WebMCP with the Syncfusion® React Diagram to enable AI interaction, configure tools, and monitor execution.
 control: Diagram
 documentation: ug
 platform: diagram-sdk
@@ -12,7 +12,7 @@ domainurl: https://help.syncfusion.com/diagram-sdk
 
 WebMCP enables AI agents to discover and interact with the Syncfusion® React Diagram through a standardized tool interface. By enabling WebMCP, AI-powered applications can securely discover Diagram capabilities, create and manage diagram objects, perform actions, and automate diagram workflows.
 
-This section demonstrates how to integrate WebMCP with the Syncfusion® React Diagram.
+This section demonstrates how to integrate WebMCP with the Syncfusion® React Diagram component.
 
 ## WebMCP Overview
 
@@ -44,18 +44,20 @@ Once connected, an AI assistant can perform tasks such as:
 Before using WebMCP locally, enable the feature flag and install the browser extension:
 
 1. Enable the `WebMCP for testing` flag through `chrome://flags/`. Click **Relaunch** to restart Chrome.
+
 2. Search for **WebMCP - Model Context Tool Inspector** in the [Chrome Web Store](https://chromewebstore.google.com/detail/webmcp-model-context-tool/gbpdfapgefenggkahomfgkhfehlcenpd). Click **Add to Chrome**.
+
 3. Visit [Google AI Studio](https://aistudio.google.com/app/apikey) to create or copy an API key. Open the WebMCP extension and paste the API key.
 
 The WebMCP extension is now configured and ready to interact with WebMCP-enabled Syncfusion® components.
 
 ## Integrating WebMCP tools
 
-Follow these steps to integrate WebMCP support into the Syncfusion® React Diagram.
+Follow these steps to integrate WebMCP support into the Syncfusion® React Diagram component.
 
 ### Step 1: Set up the Vite project
 
-Create a React Vite application and integrate the Syncfusion® React Diagram by following the [Getting Started with React Diagram](https://help.syncfusion.com/diagram-sdk/react/getting-started) guide.
+Create a React Vite application and integrate the Syncfusion® React Diagram component by following the [Getting Started with React Diagram](https://help.syncfusion.com/diagram-sdk/react/getting-started) guide.
 
 After completing the setup, follow the steps below to enable WebMCP integration.
 
