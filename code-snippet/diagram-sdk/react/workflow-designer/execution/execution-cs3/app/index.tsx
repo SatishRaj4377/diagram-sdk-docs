@@ -5,7 +5,7 @@ function WorkflowCanvas() {
     return (
         <WorkflowDesignerComponent
             id="workflow"
-            executionSettings={{ executionSpeed: 0 }}
+            executionSettings={{ executionSpeed: 1000 }}
             height="500px"
         />
     );

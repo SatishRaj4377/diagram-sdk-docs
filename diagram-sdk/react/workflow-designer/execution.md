@@ -11,11 +11,15 @@ domainurl: https://help.syncfusion.com/diagram-sdk
 
 # Running workflows in React Workflow Designer
 
-Users can run a workflow from the toolbar, and your code can start, stop, and monitor runs. This section also covers execution speed, error handling, the execution log, and run limits.
+Users can run a workflow from the toolbar, and your code can start, stop, and monitor runs. This section also covers the execution events, execution speed, the execution log, and run limits.
 
 ## Run a workflow
 
-Users run the workflow with the **Execute** toolbar command or by pressing <kbd>Ctrl</kbd> + <kbd>Enter</kbd>. To run it from code, call [`runExecution`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#runexecution), which returns a promise of the result:
+Users run the whole workflow with the **Execute** toolbar command or by pressing <kbd>Ctrl</kbd> + <kbd>Enter</kbd>. While the workflow is running, **Execute** is replaced by **Stop**, and <kbd>Ctrl</kbd> + <kbd>Enter</kbd> stops the run.
+
+Users can also execute one selected step on its own, for example to check its settings. Only that step runs; the run doesn't continue to the steps connected after it.
+
+To run the workflow from code, call [`runExecution`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#runexecution). It returns a promise that resolves with a `WorkflowExecutionResult` when the run ends:
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
@@ -23,24 +27,50 @@ Users run the workflow with the **Execute** toolbar command or by pressing <kbd>
 {% endhighlight %}
 {% endtabs %}
 
+`WorkflowExecutionResult` contains the following properties:
+
+| Property | Description |
+|---|---|
+| `status` | The final status of the run: `'Completed'`, `'Failed'`, `'Stopped'`, or `'Cancelled'`. |
+| `stepResults` | The steps that ran, in run order, each with its `id`, `stepType`, `name`, and `response`. A step that ran more than once, for example inside a loop, appears once for each run. |
+| `visitedConnections` | The identifiers of the connections that the run followed, in order. |
+| `lastStep` | The result of the last step that ran. |
+| `error` | The error that ended the run, when the run failed. |
+
 The following methods control a run:
 
-* `runExecution(context?, triggerId?)` validates the workflow and then runs it from the trigger. When the workflow has several triggers, pass the trigger identifier.
-* [`runFromStep(stepId, context?)`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#runfromstep) runs only the specified step; it doesn't continue through connected steps. Use `context` to supply the data that step needs.
-* [`stopExecution()`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#stopexecution) stops the run. `executionCompleted` is then triggered with the status `'Stopped'`.
+* `runExecution(context?, triggerId?)` validates the workflow and then runs it from a trigger. When the workflow has several triggers, pass the identifier of the trigger to start from. Use `context` to supply input data. For details, see [Provide input data](./expressions#provide-input-data).
+* [`stopExecution()`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#stopexecution) stops the run in progress. The `executionCompleted` event is then triggered with `result.status` set to `'Stopped'`.
 
-The run doesn't start when validation finds errors. To check the workflow first, call `validateWorkflow()`. For details, see [Validation](./validation).
+When validation finds errors, the workflow doesn't run: the run ends with the status `'Failed'`, and `result.error.type` is `'Validation'`. To check the workflow first, call `validateWorkflow()`. For details, see [Validation](./validation).
+
+Only one run can be active at a time. Calling `runExecution` while a run is in progress returns a rejected promise.
 
 ## Execution events
 
-| Event | Triggered when |
+| Event | Triggered when | Main arguments |
+|---|---|---|
+| `executionStarted` | A run starts, after the workflow passes validation. | `workflow` |
+| `executionStepStarted` | The run reaches a step, before the step runs. | `step`, `stepResults`, `previousStep`, `incomingConnection`, `outgoingConnections` |
+| `executionStepCompleted` | A step completes. For branching steps, such as Condition and Switch, `outputPort` tells you which port the run continues from. | `step`, `result`, `outputPort`, `stepResults`, `previousStep`, `incomingConnection`, `followedConnections` |
+| `executionStepFailed` | A step fails. | `step`, `error`, `stepResults`, `previousStep`, `incomingConnection` |
+| `executionCompleted` | The run ends, whatever the outcome. | `workflow`, `result` |
+
+The arguments of the step events are copies, so changing them doesn't change the run.
+
+### executionCompleted
+
+The `executionCompleted` event is triggered once for every run, including a run that's stopped and a run that doesn't start because validation found errors. Its arguments (`WorkflowExecutionCompletedEventArgs`) contain the following properties:
+
+* `workflow`: The workflow definition that was run.
+* `result`: The `WorkflowExecutionResult` of the run. `result.status` is one of the following values:
+
+| Status | Description |
 |---|---|
-| `executionStarted` | A run starts, after validation passes. |
-| `beforeStepExecute` | Before each step runs. Set `cancel` to `true` to end the run with the status `'Cancelled'`. |
-| `executionStepStarted` | A step starts. |
-| `executionStepCompleted` | A step completes. `outputPort` tells you which branch was taken. |
-| `executionStepFailed` | A step fails. `retryAttempt` is set during retries. |
-| `executionCompleted` | The run ends, whatever the outcome. |
+| `'Completed'` | Every path of the run finished. |
+| `'Failed'` | A step failed, or the workflow didn't pass validation. `result.error` describes the failure. For a validation failure, `result.error.type` is `'Validation'` and `result.error.details` lists the validation messages. |
+| `'Stopped'` | The user clicked **Stop**, or your code called `stopExecution()`. |
+| `'Cancelled'` | The run was cancelled before one of its steps ran. |
 
 The following example logs failed steps and the final status of each run:
 
@@ -50,11 +80,13 @@ The following example logs failed steps and the final status of each run:
 {% endhighlight %}
 {% endtabs %}
 
-The `executionState` property returns the current run state, such as `'Idle'` or `'Running'`.
-
 ## Execution speed
 
-By default, the designer waits 550 ms between steps so that users can follow the run on the canvas. To run without a delay, set `executionSettings.executionSpeed` to `0`:
+To control how quickly a run moves from one step to the next, set the `executionSpeed` property of `executionSettings`. The value is the pause, in milliseconds, before each step runs. The default is `550`.
+
+* A higher value slows the run down, so users can follow its progress on the canvas more easily.
+* A lower value shortens the pause between steps.
+* `0` runs the steps without a pause. With this value, Delay steps also complete without waiting. Negative values are treated as `0`.
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
@@ -64,10 +96,10 @@ By default, the designer waits 550 ms between steps so that users can follow the
 
 ## Execution log
 
-The execution log lists the status, input, and output of each step. Select a row to inspect the context at that step. To hide the log, set `executionLogSettings.visible` to `false`.
+The execution log lists the status, input, and output of each step during a run. Select a row to inspect the data at that step. To configure the log, see [Execution log settings](./user-interface#execution-log).
 
 ## Limits
 
-* A run stops after 10,000 step executions.
-* Runs happen in the browser, and they end when the page is closed or reloaded.
-* Only one run can be active at a time.
+* **Step execution limit:** A run can perform at most 10,000 step executions. The limit counts every time a step runs, not the number of distinct steps. For example, a Loop step that runs three steps for each of 100 items adds 300 step executions, plus the executions of the Loop step itself. When a run reaches the limit, it stops before the next step and ends with the status `'Failed'`; `result.error.code` is `'STEP_LIMIT'`, and the `executionCompleted` event is triggered. For Recurring and Cron schedules, the count starts again at each occurrence. The limit can't be changed. To stay below it, use the `maxIterations` setting of Loop steps.
+* **Browser lifetime:** Runs happen in the browser, and they end when the page is closed or reloaded.
+* **One run at a time:** Only one run can be active at a time.

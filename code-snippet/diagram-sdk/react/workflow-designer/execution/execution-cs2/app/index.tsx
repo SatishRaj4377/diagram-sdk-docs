@@ -8,6 +8,9 @@ function WorkflowCanvas() {
 
     function onExecutionCompleted(args: any) {
         console.log('Run finished:', args.result.status);
+        if (args.result.error) {
+            console.error(args.result.error.type, args.result.error.message);
+        }
     }
     
     return (

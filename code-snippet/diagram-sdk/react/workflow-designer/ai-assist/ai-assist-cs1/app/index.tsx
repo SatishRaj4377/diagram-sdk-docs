@@ -6,7 +6,7 @@ function WorkflowCanvas() {
 
     function onBeforeRequestSend(args: any) {
         if (args.requestType === 'AIAssist') {
-            args.request.headers = { Authorization: 'Bearer ' + getUserToken() };
+            args.request.headers = [{ key: 'Authorization', value: 'Bearer ' + getUserToken() }];
         }
     }
 

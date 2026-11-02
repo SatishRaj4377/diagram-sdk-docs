@@ -18,9 +18,13 @@ A connection links an output port of one step to the input port of another step.
 | `id` | `string` | A unique identifier. See [Identifier rules](./workflow-steps#identifier-rules). |
 | `sourceStepId` | `string` | The step that the connection starts from. |
 | `targetStepId` | `string` | The step that the connection ends at. |
-| `sourcePort` | `string` | The output port. Defaults to `'output'`. |
+| `sourcePort` | `string` | The output port that the connection leaves from. Defaults to `'output'`. |
 | `label` | `string` | The text shown on the connection. |
-| `type` | `'Straight' \| 'Orthogonal' \| 'Bezier'` | The line shape. Defaults to `'Orthogonal'`. |
+| `type` | `WorkflowConnectionType` | The line shape: `'Straight'`, `'Orthogonal'`, or `'Bezier'`. Defaults to `'Orthogonal'`. |
+
+## Input port
+
+Every step except a trigger has exactly one input port. A connection always enters its target step through this port, so you only choose the step it leads to with `targetStepId`. Trigger steps have no input port, because they start the workflow.
 
 ## Output ports
 
@@ -29,7 +33,7 @@ The output ports of a step depend on its type:
 | Step type | Output ports |
 |---|---|
 | `Condition` | `true`, `false` |
-| `Switch` | One port for each branch name |
+| `Switch` | One port for each branch name, plus `default` (used when no branch matches) |
 | `Loop` | `loop` (runs for each item), `done` (runs after the last item) |
 | `Approve` | `approved`, `declined` |
 | `End` | None |
@@ -45,28 +49,18 @@ The following connections route the two outcomes of an Approve step to different
 
 ## Create connections interactively
 
-Drag from a step's output port to another step. You can also use the **Add** handle on a step or connection to insert a new step from the step collection, with its connections already in place.
-
-## Validate connections
-
-The `beforeConnect` event is triggered before the user adds a connection. To reject the connection, set `cancel` to `true`.
-
-The following example allows only one connection out of the trigger:
-
-{% tabs %}
-{% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/connections/connections-cs2/app/index.tsx %}
-{% endhighlight %}
-{% endtabs %}
+Use the **Add** handle on a step or on an existing connection to insert a new step from the step collection. The designer adds the step with its connections already in place.
 
 ## Connection rules
 
-* Each output port can lead to only one step (`FANOUT`). To do several things after a step, connect them one after another.
-* Trigger steps can't have incoming connections (`TRIGGER_INCOMING`).
-* A step can't connect to itself, and the same connection can't be added twice.
-* Both ends must be existing steps, and the connection must use ports that the step type supports.
-* Workflows can't contain cycles (`CYCLE`). To repeat steps, use a [Loop](./workflow-steps#loop) step.
+The designer checks every connection against the following rules:
 
-[Validation](./validation) reports every break of these rules, and a workflow with errors can't run.
+* **One connection for each output port.** An output port can lead to only one step. When you connect a second step to the same port, validation reports that the output already has a connection. To do several things after a step, connect the steps one after another.
+* **No connections into triggers.** A trigger starts the workflow, so a connection can't end at a trigger step.
+* **No self-connections or duplicates.** A step can't connect to itself, and the same connection can't be added twice.
+* **Valid endpoints and ports.** Both ends must be existing steps, and the connection must use an output port that the source step type supports.
+* **No cycles.** A connection can't lead back to an earlier step. To repeat steps, use a [Loop](./workflow-steps#loop) step.
 
-On import, the following problems reject the file: self-connections, duplicate connections, missing endpoints, invalid ports, cycles, and incoming connections to triggers. A second connection from the same port (`FANOUT`) is loaded but reported.
+A workflow that breaks any of these rules can't run. [Validation](./validation) lists each problem, with the affected step or connection, in the execution log and in the result of `validateWorkflow`.
+
+When you import a workflow, self-connections, duplicate connections, missing endpoints, invalid ports, cycles, and connections into triggers reject the file. A second connection from the same output port doesn't reject the file; the workflow is loaded, and validation reports the problem.

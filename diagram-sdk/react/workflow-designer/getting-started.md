@@ -99,10 +99,11 @@ A workflow is a JSON object with steps, connections and optional sticky notes. I
 
 In this example:
 
+* `schemaVersion` identifies the format of the workflow JSON. Keep it set to `'1.1'`, the value that the **Export** command writes. A workflow without a supported schema version isn't imported.
 * `workflowSteps` defines five steps. Each step has an `id`, a `stepType`, a display `name`, and a `position` on the canvas. For every step type and its settings, see [Workflow steps](./workflow-steps).
 * `props` holds the settings of a step, such as the request `method` and `url` of the `ApiRequest` step.
-* The `Condition` step reads the API response with the expression <code>&#123;&#123;$.previousStep.response.body.paid&#125;&#125;</code>. For more about expressions, see [Expressions and runtime context](./expressions).
-* `workflowConnections` links the steps. On the `Condition` step, `sourcePort` selects the `true` or `false` branch. For more about ports, see [Connections and ports](./connections).
+* The `Condition` step reads the API response with the expression <code>&#123;&#123;$.previousStep.response.body.paid&#125;&#125;</code>. For more about expressions, see [Expressions and the variable picker](./expressions).
+* `workflowConnections` links the steps. `sourcePort` selects the output port that the connection leaves from; on the `Condition` step, it selects the `true` or `false` branch. When `sourcePort` isn't set, the step's `output` port is used. Every step has a single input port, so a connection always enters its target step through that port and you don't need to specify it. For more about ports, see [Connections and ports](./connections).
 * `importWorkflow` loads the workflow into the designer.
 
 ## Run the application
@@ -119,7 +120,7 @@ npm run dev
 
 Click **Execute** in the top toolbar, or press <kbd>Ctrl</kbd> + <kbd>Enter</kbd>, to run the workflow. The execution log shows the result of each step.
 
-N> The sample request uses a placeholder URL, so the **Get order** step fails and the execution log shows the error. To see the full run, replace the URL with an API that returns a JSON object with a `paid` field and allows cross-origin requests from your page.
+N> The sample request uses a placeholder URL, so the **Get order** step fails, the run ends, and the execution log shows the error. To see the full run, replace the URL with an API that returns a JSON object with a `paid` field and allows cross-origin requests (CORS) from your page. When the request succeeds, the run follows the `c2` connection into the input port of the **Is paid?** step, and the condition result then selects the `true` or `false` output port.
 
 If `npm run dev` fails, run `npm install` again to make sure all dependencies are installed. If the default port is already in use, stop the other process or change the port in the Vite configuration.
 

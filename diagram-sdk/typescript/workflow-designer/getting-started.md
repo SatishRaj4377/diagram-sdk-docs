@@ -131,7 +131,7 @@ designer.appendTo('#workflowDesigner');
 
 In this example:
 
-* [`width`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#width) and [`height`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#height) set the size of the designer. Both accept pixels or any CSS length.
+* [`width`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#width) and [`height`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#height) set the size of the designer. Both accept a number of pixels or any CSS length, and both default to `'100%'`.
 * `appendTo` renders the designer in the `#workflowDesigner` element.
 
 N> Make sure the application entry point (for example, `src/index.ts`) imports `src/app/app.ts`, so that the designer is created when the app loads.
@@ -186,10 +186,11 @@ designer.importWorkflow(workflow);
 
 In this example:
 
+* `schemaVersion` identifies the format of the workflow JSON. Keep it set to `'1.1'`, the value that the **Export** command writes. A workflow without a supported schema version isn't imported.
 * `workflowSteps` defines five steps. Each step has an `id`, a `stepType`, a display `name`, and a `position` on the canvas. For every step type and its settings, see [Workflow steps](./workflow-steps).
 * `props` holds the settings of a step, such as the request `method` and `url` of the `ApiRequest` step.
-* The `Condition` step reads the API response with the expression <code>&#123;&#123;$.previousStep.response.body.paid&#125;&#125;</code>. For more about expressions, see [Expressions and runtime context](./expressions).
-* `workflowConnections` links the steps. On the `Condition` step, `sourcePort` selects the `true` or `false` branch. For more about ports, see [Connections and ports](./connections).
+* The `Condition` step reads the API response with the expression <code>&#123;&#123;$.previousStep.response.body.paid&#125;&#125;</code>. For more about expressions, see [Expressions and the variable picker](./expressions).
+* `workflowConnections` links the steps. `sourcePort` selects the output port that the connection leaves from; on the `Condition` step, it selects the `true` or `false` branch. When `sourcePort` isn't set, the step's `output` port is used. Every step has a single input port, so a connection always enters its target step through that port and you don't need to specify it. For more about ports, see [Connections and ports](./connections).
 * [`importWorkflow`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#importworkflow) loads the workflow into the designer.
 
 ## Run the application
@@ -208,7 +209,7 @@ Open the local URL shown in the terminal, such as `http://localhost:4000`. The d
 
 To run the workflow, click **Execute** in the top toolbar or press <kbd>Ctrl</kbd> + <kbd>Enter</kbd>. The execution log shows the result of each step.
 
-N> The sample request uses a placeholder URL, so the **Get order** step fails and the execution log shows the error. To see the full run, replace the URL with an API that returns a JSON object with a `paid` field and allows cross-origin requests from your page.
+N> The sample request uses a placeholder URL, so the **Get order** step fails, the run ends, and the execution log shows the error. To see the full run, replace the URL with an API that returns a JSON object with a `paid` field and allows cross-origin requests (CORS) from your page. When the request succeeds, the run follows the `c2` connection into the input port of the **Is paid?** step, and the condition result then selects the `true` or `false` output port.
 
 If `npm start` fails, run `npm install` again to make sure all dependencies are installed. If the default port is already in use, stop the other process or change the port in the webpack configuration.
 
@@ -217,4 +218,4 @@ If `npm start` fails, run `npm install` again to make sure all dependencies are 
 * [Workflow steps](./workflow-steps)
 * [Connections and ports](./connections)
 * [Running workflows](./execution)
-* [Default Functionalities demo](https://npmci.syncfusion.com/development/javascript/demos/#/tailwind3/workflow-designer/default-functionalities.html)
+* [Default Functionalities demo](https://ej2.syncfusion.com/demos/#/tailwind3/workflow-designer/default-functionalities.html)

@@ -8,8 +8,7 @@ function WorkflowCanvas() {
         const result = await workflowInstance.current?.runExecution();
         if (result) {
             console.log(result.status);
-            console.log(result.visitedSteps);
-            console.log(result.context.nodes);
+            result.stepResults.forEach((step) => console.log(step.id, step.response));
         }
     }
 
