@@ -4,10 +4,15 @@ import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-design
 function WorkflowCanvas() {
     function onBeforeRequestSend(args: any) {
         if (args.requestType === 'ApiRequest') {
-            const url: string = String(args.request.url);
-            if (!url.startsWith('https://api.mycompany.com/')) {
+            const request = args.request;
+            if (!request.url.startsWith('https://api.mycompany.com/')) {
                 args.cancel = true;
+                return;
             }
+            // getUserToken stands for your application's sign-in code.
+            request.headers = (request.headers || []).concat([
+                { key: 'Authorization', value: 'Bearer ' + getUserToken() }
+            ]);
         }
     }
 

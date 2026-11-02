@@ -19,7 +19,9 @@ You can localize all text in the Workflow Designer, including labels, tooltips, 
 {% endhighlight %}
 {% endtabs %}
 
-Keys that aren't translated fall back to English. When you change `locale` at runtime, every panel updates. Several designers on one page can use different locales.
+Keys that aren't translated fall back to English. Several designers on one page can use different locales.
+
+N> Set `locale` when you create the designer. Changing `locale` after the designer is rendered isn't fully supported yet: some text, such as messages already shown in the execution log or an open dialog, may stay in the previous language. To switch the language reliably, destroy the designer and create it again with the new locale, and use `exportWorkflow` and `importWorkflow` to keep the current workflow.
 
 ## Default locale
 
@@ -470,9 +472,9 @@ The following table lists all 472 localization keys and their default English te
 | `helpAIServerUrlTitle` | Server URL |
 | `helpAIServerUrl` | Sends the prompt to your server. Your server calls the AI and returns the response, which is forwarded to the next step. |
 | `helpAIMemoryEnabled` | When enabled, this AI Agent will remember recent interactions from previous executions and include that history in subsequent prompts for continuous, context-aware conversations. |
-| `helpAIContextWindowLength` | How many recent conversations to remember (1-50). Enter 10 to keep the last 10 user and AI message pairs. Default is 10. |
+| `helpAIContextWindowLength` | Controls how many recent conversations the AI retains when memory is enabled. |
 | `helpAIApiKey` | Development only: the key is sent directly from the browser and is never written to the exported workflow. |
-| `helpAIResponseFields` | Specify the JSON fields expected from the AI. When fields are added, the AI output is automatically set to JSON.\n\n**Name:** Field name in the JSON response (e.g. priority, category).\n**Type:** Data type of the returned value (e.g. String, Number, Boolean).\n**Description:** Optional guidance for generating the value. |
+| `helpAIResponseFields` | Specify the Desired Response Fields expected from the AI. When fields are added, the AI output is automatically set to JSON.\n\n**Name:** Field name in the JSON response (e.g. priority, category).\n**Type:** Data type of the returned value (e.g. String, Number, Boolean).\n**Description:** Optional guidance for generating the value. |
 | `Field help` | Field help |
 | `Cron expression help` | Cron expression help |
 | `Desired response fields help` | Desired response fields help |

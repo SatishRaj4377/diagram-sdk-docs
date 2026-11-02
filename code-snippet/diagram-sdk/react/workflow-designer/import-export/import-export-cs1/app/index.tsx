@@ -8,9 +8,8 @@ function WorkflowCanvas() {
         const designer = workflowInstance.current;
         if (designer) {
             const json = designer.exportWorkflow();
-            const copy = designer.getWorkflow();
-            designer.saveWorkflow('order-check.json');
-            console.log(json, copy);
+            // myApi stands for your application's save endpoint.
+            myApi.save(json);
         }
     }
 

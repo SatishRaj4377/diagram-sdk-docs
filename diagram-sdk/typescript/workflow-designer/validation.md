@@ -50,7 +50,7 @@ Each `WorkflowValidationMessage` contains the following properties:
 | Switch | `SWITCH_BRANCH`, `SWITCH_BRANCH_NAME`, `SWITCH_BRANCH_UNIQUE` |
 | Set Variable | `SET_VARIABLE_REQUIRED`, `SET_VARIABLE_NAME`, `SET_VARIABLE_UNIQUE`, `SET_VARIABLE_TYPE`, `SET_VARIABLE_VALUE`, `SET_VARIABLE_MATH`, `SET_VARIABLE_ZERO` |
 | Form input | `FORM_FIELDS`, `FORM_FIELD_NAME`, `FORM_FIELD_TYPE`, `FORM_FIELD_UNIQUE`, `FORM_FIELD_OPTIONS` |
-| Scheduled trigger | `SCHEDULE_TYPE`, `SCHEDULE_INTERVAL` |
+| Scheduled trigger | `SCHEDULE_TYPE`, `SCHEDULE_INTERVAL`. Problems with the schedule dates, time zone, or cron expression, such as `SCHEDULE_START` and `CRON_INVALID`, are reported in the execution log when the run starts. |
 | Webhook trigger | `WEBHOOK_METHOD`, `WEBHOOK_PATH`, `WEBHOOK_AUTH`, `WEBHOOK_AUTH_MODE`, `WEBHOOK_AUTH_HEADER`, `WEBHOOK_AUTH_SIG_HEADER`, `WEBHOOK_RESPONSE_CODE` |
 | Other steps | `DELAY_DURATION`, `DELAY_DYNAMIC`, `LOOP_MAX`, `APPROVE_REVIEWERS`, `APPROVE_REQUEST_FIELDS`, `URL_PROTOCOL` |
 | Expressions and secrets | `EXPRESSION_SYNTAX`, `SECRET_FORBIDDEN` |

@@ -15,11 +15,11 @@ The Syncfusion<sup style="font-size:70%">&reg;</sup> Workflow Designer is a visu
 
 ## Key features
 
-* **Visual canvas:** Connect steps, select them, and pan or zoom the canvas. Undo and redo are built in, and automatic layout arranges the workflow for you.
+* **Visual canvas:** Add and connect steps, select them, and pan or zoom the canvas. Undo and redo are built in, and automatic layout arranges the workflow for you.
 * **18 built-in step types:** Triggers, data operations, branching, loops, approvals, notifications, AI, formatting, and custom steps.
 * **Property panel:** Every step type has its own editor, with expression support for reading data from earlier steps.
-* **In-browser execution:** Run a workflow from a trigger, or run one step independently. Each run reports its progress through events.
-* **Host integration:** Your application handles notifications and custom steps; approval steps use a built-in dialog, and sensitive requests can be routed through your backend.
+* **In-browser execution:** Run the whole workflow from a trigger, or execute one selected step on its own. Executing a single step runs only that step; it doesn't continue to the steps connected after it. Each run reports its progress through events.
+* **Host integration:** Your application delivers notifications and runs custom steps.
 * **Validation:** Structural and configuration errors are reported before a run starts.
 * **Import and export:** Save and load workflows as JSON.
 * **AI Assist:** Generate a workflow, or change the current one, from a natural-language prompt.
@@ -28,10 +28,9 @@ The Syncfusion<sup style="font-size:70%">&reg;</sup> Workflow Designer is a visu
 
 ## Layout
 
-
 | Region | Description |
 |---|---|
-| Top toolbar | The Execute, Stop, Layout, Lock, Undo, Redo, Import, and Export commands. Stop is available while a workflow is running. |
+| Top toolbar | The Execute, Stop, Layout, Lock, Undo, Redo, Import, and Export commands. While a workflow is running, the Execute command is replaced by Stop. |
 | Step collection | The panel that users pick new steps from. It opens when the user adds a step. |
 | Canvas | The workflow diagram, with a floating canvas toolbar at the bottom. |
 | Property panel | The editor for the selected step or connection. |
@@ -58,4 +57,4 @@ To see the Workflow Designer in action, open the [Default Functionalities demo](
 
 ## Next steps
 
-To create your first workflow, see [Getting started](/diagram-sdk/typescript/workflow-designer/getting-started).
+To create your first workflow, see [Getting started](./getting-started).

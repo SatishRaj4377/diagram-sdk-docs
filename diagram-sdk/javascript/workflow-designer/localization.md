@@ -37,7 +37,9 @@ designer.appendTo('#workflowDesigner');
 {% endhighlight %}
 {% endtabs %}
 
-Keys that aren't translated fall back to English. When you change `locale` at runtime, every panel updates. Several designers on one page can use different locales.
+Keys that aren't translated fall back to English. Several designers on one page can use different locales.
+
+N> Set `locale` when you create the designer. Changing `locale` after the designer is rendered isn't fully supported yet: some text, such as messages already shown in the execution log or an open dialog, may stay in the previous language. To switch the language reliably, destroy the designer and create it again with the new locale, and use `exportWorkflow` and `importWorkflow` to keep the current workflow.
 
 ## Default locale
 
@@ -260,7 +262,7 @@ The following table lists all 472 localization keys and their default English te
 | `validationConditionValue` | Enter a value to compare against. |
 | `validationSecretForbidden` | Don't enter secrets here. Use a credential reference instead. |
 | `validationRequiredProp` | {0} is required. |
-| `validationExpressionUnbalanced` | An expression is missing its opening {{ or closing }}. |
+| `validationExpressionUnbalanced` | An expression is missing its opening &#123;&#123; or closing &#125;&#125;. |
 | `validationExpressionSyntax` | This expression isn't valid. |
 | `validationExpressionRoot` | Expressions must start with $, for example $.input.response. |
 | `validationExpressionForbidden` | This expression path isn't allowed. |
@@ -439,7 +441,7 @@ The following table lists all 472 localization keys and their default English te
 | `variableOperatorAria` | Variable {0} operator |
 | `variableSecondValue` | Second value |
 | `variableValue` | Value |
-| `variableValueHelp` | {{$.path}} or literal |
+| `variableValueHelp` | &#123;&#123;$.path&#125;&#125; or literal |
 | `formDialogEmpty` | No form fields are configured for this step. Add fields in the property panel (name and default value), then run again. |
 | `formDialogDefaultTitle` | Form input - {0} |
 | `formDialogRequired` | This field is required. |

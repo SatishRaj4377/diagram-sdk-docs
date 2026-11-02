@@ -46,9 +46,9 @@ const notifyStep = {
     id: 'notify', stepType: 'Notify', name: 'Notify customer',
     props: {
         channel: 'Email',
-        to: '{{$.nodes["getCustomer"].response.body.email}}',
-        subject: 'Order {{$.nodes["setOrder"].response.orderId}}',
-        message: 'Total: {{$.previousStep.response.body.total}}'
+        to: '{{\$.nodes["getCustomer"].response.body.email}}',
+        subject: 'Order {{\$.nodes["setOrder"].response.orderId}}',
+        message: 'Total: {{\$.previousStep.response.body.total}}'
     }
 };
 
@@ -67,7 +67,7 @@ To start a run with input data, pass it in the `input.response` property of the 
 // The workflow starts from a Manual Trigger step with the identifier 'start'.
 designer.runExecution({ input: { response: { orderId: 'SO-1001' } } });
 
-// A later step reads the value with {{$.nodes["start"].response.orderId}}.
+// A later step reads the value with {{\$.nodes["start"].response.orderId}}.
 
 {% endraw %}
 {% endhighlight %}

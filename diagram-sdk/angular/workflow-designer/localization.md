@@ -20,7 +20,7 @@ import { Component } from '@angular/core';
 import { WorkflowDesignerModule } from '@syncfusion/ej2-angular-workflow-designer';
 import { L10n } from '@syncfusion/ej2-base';
 
-L10n.load({ 'de-DE': { 'workflow-designer': { workflowSteps: 'Workflow-Schritte', searchWorkflowSteps: 'Workflow-Schritte suchen', categoryTriggers: 'Ausl?ser', categoryActions: 'Aktionen', executionLog: 'Ausf?hrungsprotokoll', executionCompleted: 'Ausf?hrung abgeschlossen', cancel: 'Abbrechen' } } });
+L10n.load({ 'de-DE': { 'workflow-designer': { workflowSteps: 'Workflow-Schritte', searchWorkflowSteps: 'Workflow-Schritte suchen', categoryTriggers: 'Auslöser', categoryActions: 'Aktionen', executionLog: 'Ausführungsprotokoll', executionCompleted: 'Ausführung abgeschlossen', cancel: 'Abbrechen' } } });
 
 @Component({
     selector: 'app-root',
@@ -34,7 +34,9 @@ export class AppComponent {
 {% endhighlight %}
 {% endtabs %}
 
-Keys that aren't translated fall back to English. When you change `locale` at runtime, every panel updates. Several designers on one page can use different locales.
+Keys that aren't translated fall back to English. Several designers on one page can use different locales.
+
+N> Set `locale` when you create the designer. Changing `locale` after the designer is rendered isn't fully supported yet: some text, such as messages already shown in the execution log or an open dialog, may stay in the previous language. To switch the language reliably, destroy the designer and create it again with the new locale, and use `exportWorkflow` and `importWorkflow` to keep the current workflow.
 
 ## Default locale
 

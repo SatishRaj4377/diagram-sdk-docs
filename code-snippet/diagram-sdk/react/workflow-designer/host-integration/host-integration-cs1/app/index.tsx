@@ -6,7 +6,7 @@ function WorkflowCanvas() {
         fetch('/api/notify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(args.notification),
+            body: JSON.stringify({ stepId: args.step.id, notification: args.notification }),
             signal: args.signal
         })
             .then((response: Response) => {
