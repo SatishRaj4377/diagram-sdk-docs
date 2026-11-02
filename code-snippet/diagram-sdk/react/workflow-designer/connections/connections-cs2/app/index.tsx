@@ -2,20 +2,17 @@ import * as React from 'react';
 import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
 
 function WorkflowCanvas() {
-    const workflowInstance = React.useRef<WorkflowDesignerComponent>(null);
-
-    function onBeforeConnect(args: any) {
-        if (args.connection.sourceStepId === 'start') {
-            args.cancel = true;
+    function onWorkflowChanged(args: any) {
+        if (args.changeType === 'ConnectionAdded') {
+            console.log('Connection added:', args.affectedItem);
         }
     }
 
     return (
         <WorkflowDesignerComponent
             id="workflow"
-            ref={workflowInstance}
             height="640px"
-            beforeConnect={onBeforeConnect}
+            workflowChanged={onWorkflowChanged}
         />
     );
 }
