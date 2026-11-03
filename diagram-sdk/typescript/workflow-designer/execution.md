@@ -55,6 +55,18 @@ When validation finds errors, the workflow doesn't run: the run ends with the st
 
 Only one run can be active at a time. Calling `runExecution` while a run is in progress returns a rejected promise.
 
+The following example loads a workflow with a Manual Trigger, Delay, and End step. Click the **Run workflow** button to start the workflow programmatically by using the `runExecution` method:
+
+{% tabs %}
+{% highlight ts tabtitle="index.ts" %}
+{% include code-snippet/diagram-sdk/typescript/workflow-designer-execution/index.ts %}
+{% endhighlight %}
+{% highlight html tabtitle="index.html" %}
+{% include code-snippet/diagram-sdk/typescript/workflow-designer-execution/index.html %}
+{% endhighlight %}
+{% endtabs %}  
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/typescript/workflow-designer-execution" %}
+
 ## Execution events
 
 | Event | Triggered when | Main arguments |

@@ -70,28 +70,17 @@ Values from earlier steps are inserted into `args.notification` as they are. Esc
 
 Handle the `customExecutionRequested` event to run the work of Custom steps. `actionType` identifies the action, and `input` holds the step's input with expressions already resolved. When no handler is bound to this event, Custom steps fail.
 
+The following example handles the `customExecutionRequested` event for a Custom step. The handler simulates creating an invoice and calls `complete` with the generated invoice data:
+
 {% tabs %}
-{% highlight ts tabtitle="app.ts" %}
-
-import { WorkflowDesigner, WorkflowCustomExecutionRequestedEventArgs } from '@syncfusion/ej2-workflow-designer';
-
-const designer: WorkflowDesigner = new WorkflowDesigner({
-    customExecutionRequested: (args: WorkflowCustomExecutionRequestedEventArgs) => {
-        if (args.actionType === 'createInvoice') {
-            // invoiceService stands for your application's invoicing code.
-            invoiceService.create(args.input).then(
-                (invoice: object) => args.complete(invoice),
-                (error: Error) => args.fail(error)
-            );
-        } else {
-            args.fail(new Error('Unknown action: ' + args.actionType));
-        }
-    }
-});
-designer.appendTo('#workflowDesigner');
-
+{% highlight ts tabtitle="index.ts" %}
+{% include code-snippet/diagram-sdk/typescript/workflow-designer-host-integration/index.ts %}
 {% endhighlight %}
-{% endtabs %}
+{% highlight html tabtitle="index.html" %}
+{% include code-snippet/diagram-sdk/typescript/workflow-designer-host-integration/index.html %}
+{% endhighlight %}
+{% endtabs %}  
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/typescript/workflow-designer-host-integration" %}
 
 ## Credentials
 

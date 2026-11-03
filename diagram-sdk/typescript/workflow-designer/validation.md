@@ -15,20 +15,17 @@ The designer validates the workflow before every run. Errors stop the run, while
 
 To validate the workflow from code, call [`validateWorkflow`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#validateworkflow):
 
+The following example validates the loaded workflow when the **Validate workflow** button is clicked:
+
 {% tabs %}
-{% highlight ts tabtitle="app.ts" %}
-
-import { WorkflowValidationResult, WorkflowValidationMessage } from '@syncfusion/ej2-workflow-designer';
-
-const result: WorkflowValidationResult = designer.validateWorkflow();
-if (!result.isValid) {
-    result.messages
-        .filter((m: WorkflowValidationMessage) => m.type === 'Error')
-        .forEach((m: WorkflowValidationMessage) => console.log(m.code, m.stepId, m.message));
-}
-
+{% highlight ts tabtitle="index.ts" %}
+{% include code-snippet/diagram-sdk/typescript/workflow-designer-validation/index.ts %}
 {% endhighlight %}
-{% endtabs %}
+{% highlight html tabtitle="index.html" %}
+{% include code-snippet/diagram-sdk/typescript/workflow-designer-validation/index.html %}
+{% endhighlight %}
+{% endtabs %}  
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/typescript/workflow-designer-validation" %}
 
 Each `WorkflowValidationMessage` contains the following properties:
 
