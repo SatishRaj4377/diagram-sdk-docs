@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Host integration in Vue Workflow Designer | Syncfusion®
-description: Learn how to deliver notifications, handle approvals, supply credentials, run custom steps and intercept requests in the Syncfusion Vue Workflow Designer.
+description: Learn how to deliver notifications, run custom steps and intercept requests in the Syncfusion Vue Workflow Designer.
 control: Workflow Designer
 platform: diagram-sdk
 documentation: ug
@@ -10,17 +10,19 @@ domainurl: https://help.syncfusion.com/diagram-sdk
 
 # Host integration in Vue Workflow Designer
 
-Some steps need work that only your application can do, such as sending an email or reading a secret. For these steps, the designer triggers an event, and the step waits until your handler finishes it.
+Some steps need work that only your application can do, such as sending a notification or running custom logic. For these steps, the designer triggers an event, and the step waits until your handler finishes it.
 
 The arguments of these events contain the following members:
 
-* `complete(result)`: Finishes the step successfully.
-* `fail(error)`: Fails the step. The step's error handling then applies.
-* `signal`: An `AbortSignal` that's aborted when the run is stopped or the step times out.
+* `complete(result)`: Finishes the step successfully. The value you pass becomes the step's response, which later steps can read.
+* `fail(error)`: Fails the step with the given `Error`. The step is reported as failed in the execution log and in the `executionStepFailed` event.
+* `signal`: An `AbortSignal` that's aborted when the run is stopped or the step times out. Pass it to your own requests so they're cancelled too.
+
+Only the first call to `complete` or `fail` takes effect. The step waits until one of them is called, the step times out, or the run is stopped.
 
 ## Notifications
 
-Handle the `notifyRequested` event to deliver the notifications that Notify steps send:
+Handle the `notifyRequested` event to deliver the notifications that Notify steps send. When no handler is bound to this event, Notify steps fail.
 
 {% tabs %}
 {% highlight html tabtitle="App.vue" %}
@@ -36,7 +38,7 @@ const notifyRequested = (args) => {
     fetch('/api/notify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(args.notification),
+        body: JSON.stringify({ stepId: args.step.id, notification: args.notification }),
         signal: args.signal
     })
         .then((response) => {
@@ -54,43 +56,20 @@ const notifyRequested = (args) => {
 {% endhighlight %}
 {% endtabs %}
 
-`args.notification` holds the step settings, with expressions already resolved. Call `fail` for every unsuccessful outcome, including HTTP error responses, so that the step's [error handling](./execution#error-handling) applies (retries, `continueOnError`, and the error port). If you call `complete`, the step is treated as successful.
+The event arguments contain the following properties, in addition to `complete`, `fail`, and `signal`:
 
-## Approvals
+| Property | Description |
+|---|---|
+| `step` | The Notify step. |
+| `notification` | The step's notification settings, with expressions already resolved. `channel` and `message` are always set; the other fields depend on the channel. See [Notify](./workflow-steps#notify). |
+| `stepResults` | The results of the steps that ran so far, in run order. |
+| `previousStep` | The result of the step that ran just before, if any. |
 
-The `approvalRequested` event provides `reviewers`, `requestMessage`, and `requestFields`. Complete it with an `ApprovalDecisionResult`:
-
-{% tabs %}
-{% highlight html tabtitle="App.vue" %}
-
-<template>
-    <ejs-workflowdesigner :approvalRequested="approvalRequested"></ejs-workflowdesigner>
-</template>
-
-<script setup>
-import { WorkflowDesignerComponent as EjsWorkflowdesigner } from '@syncfusion/ej2-vue-workflow-designer';
-
-const approvalRequested = (args) => {
-    // myApprovalService stands for your application's approval system.
-    myApprovalService.request(args.requestMessage, args.reviewers).then((decision) => {
-        args.complete({
-            decision: decision.approved ? 'approved' : 'declined',
-            comments: decision.comments,
-            reviewedBy: decision.user,
-            reviewedAt: new Date().toISOString()
-        });
-    });
-};
-</script>
-
-{% endhighlight %}
-{% endtabs %}
-
-When the event isn't handled, a built-in dialog lets the current user decide.
+Values from earlier steps are inserted into `args.notification` as they are. Escape them before you use them in HTML, such as an email body. Call `fail` for every unsuccessful outcome, including HTTP error responses, so the run reports the failure. If you call `complete`, the step is treated as successful.
 
 ## Custom steps
 
-Handle the `customExecutionRequested` event to run the work of Custom steps. `actionType` identifies the action:
+Handle the `customExecutionRequested` event to run the work of Custom steps. `actionType` identifies the action, and `input` holds the step's input with expressions already resolved. When no handler is bound to this event, Custom steps fail.
 
 {% tabs %}
 {% highlight html tabtitle="App.vue" %}
@@ -120,45 +99,20 @@ const customExecutionRequested = (args) => {
 
 ## Credentials
 
-Steps store only the name of a credential: `authRef` on API Request steps and `credentialRef` on AI steps. When a credential is needed, the designer triggers the `credentialRequested` event. Resolve the name from your secret store:
+Keep production secrets on your server. Only credential names, never secrets, are saved in a workflow. To authenticate requests:
 
-{% tabs %}
-{% highlight html tabtitle="App.vue" %}
-
-<template>
-    <ejs-workflowdesigner :credentialRequested="credentialRequested"></ejs-workflowdesigner>
-</template>
-
-<script setup>
-import { WorkflowDesignerComponent as EjsWorkflowdesigner } from '@syncfusion/ej2-vue-workflow-designer';
-
-const credentialRequested = (args) => {
-    // args.purpose is 'ApiRequest', 'AI', or 'AIAssist'.
-    // getSecret stands for your application's secret store.
-    getSecret(args.credentialRef).then((secret) => {
-        if (args.purpose === 'ApiRequest') {
-            args.complete({ headers: { Authorization: 'Bearer ' + secret } });
-        } else {
-            args.complete(secret);
-        }
-    }, (error) => args.fail(error));
-};
-</script>
-
-{% endhighlight %}
-{% endtabs %}
-
-Secrets are attached after `beforeRequestSend`. They never appear in event arguments, the execution log, or exported JSON.
+* For API Request steps, add the authentication header in the `beforeRequestSend` event, or route the request through your backend, which adds the credentials.
+* For AI steps and AI Assist, use the default `'Reference'` credential mode with a backend endpoint that holds the provider key. See [Credential mode](./security#credential-mode).
 
 ## Intercept requests
 
-The `beforeRequestSend` event is triggered before every API Request step, AI step, and AI Assist request. Use it to:
+The `beforeRequestSend` event is triggered before every request that an API Request step, an AI step, or AI Assist sends. `requestType` is `'ApiRequest'`, `'AI'`, or `'AIAssist'`. Use the event to:
 
-* Change the request in place, for example, to route the URL through your proxy or add headers.
+* Change `args.request` in place, for example, to route the URL through your proxy or add headers. Headers are a list of `{ key, value }` pairs.
 * Supply the response yourself by setting `args.response` to a value or a promise. No request is sent.
 * Block the request by setting `args.cancel` to `true`. The step then fails with the code `REQUEST_CANCELLED`.
 
-The following example blocks API requests to any host other than your own API:
+The following example blocks API requests to any host other than your own API, and adds an authorization header to the allowed requests:
 
 {% tabs %}
 {% highlight html tabtitle="App.vue" %}
@@ -172,10 +126,15 @@ import { WorkflowDesignerComponent as EjsWorkflowdesigner } from '@syncfusion/ej
 
 const beforeRequestSend = (args) => {
     if (args.requestType === 'ApiRequest') {
-        const url = String(args.request.url);
-        if (!url.startsWith('https://api.mycompany.com/')) {
+        const request = args.request;
+        if (!request.url.startsWith('https://api.mycompany.com/')) {
             args.cancel = true;
+            return;
         }
+        // getUserToken stands for your application's sign-in code.
+        request.headers = (request.headers || []).concat([
+            { key: 'Authorization', value: 'Bearer ' + getUserToken() }
+        ]);
     }
 };
 </script>
@@ -187,7 +146,29 @@ const beforeRequestSend = (args) => {
 
 | Event | Description |
 |---|---|
-| `workflowChanged` | The workflow changed. Provides a snapshot, `changeType`, and `affectedItem`. |
-| `workflowItemSelected` | The selection changed. |
-| `beforeItemRemove` | Triggered before the user removes an item. Set `cancel` to `true`, or to a promise of `true`, to keep the item. |
-| `beforeConnect` | Triggered before the user adds a connection. See [Validate connections](./connections#validate-connections). |
+| `workflowChanged` | Triggered after the workflow changes, in the UI or through `importWorkflow`. The arguments provide a `workflow` snapshot, the `changeType`, the `affectedItem`, and the `changedProperties`. |
+| `selectionChanged` | Triggered when the selection on the canvas changes. `selectedItem` holds the selected step, connection, or sticky note, or `null` when the selection is cleared. |
+
+The following example saves a draft of the workflow whenever it changes:
+
+{% tabs %}
+{% highlight html tabtitle="App.vue" %}
+
+<template>
+    <ejs-workflowdesigner ref="designer" :workflowChanged="workflowChanged"></ejs-workflowdesigner>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { WorkflowDesignerComponent as EjsWorkflowdesigner } from '@syncfusion/ej2-vue-workflow-designer';
+
+const designer = ref(null);
+const workflowChanged = (args) => {
+    console.log('Workflow changed:', args.changeType);
+    // saveDraft stands for your application's save code.
+    saveDraft(designer.value.ej2Instances.exportWorkflow());
+};
+</script>
+
+{% endhighlight %}
+{% endtabs %}

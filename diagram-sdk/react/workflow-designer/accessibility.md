@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Accessibility in React Workflow Designer | Syncfusion®
-description: Learn about keyboard shortcuts, screen reader support and right-to-left layout in the Syncfusion React Workflow Designer.
+description: Learn about keyboard shortcuts and screen reader support in the Syncfusion React Workflow Designer.
 platform: diagram-sdk
 control: Workflow Designer
 publishingplatform: diagram-sdk
@@ -37,23 +37,6 @@ On macOS, use <kbd>⌘</kbd> instead of <kbd>Ctrl</kbd>. Shortcuts aren't handle
 | <kbd>Enter</kbd> | Open the selected item in the property panel |
 | <kbd>Alt</kbd> + <kbd>N</kbd> | Add the next step |
 | <kbd>Ctrl</kbd> + <kbd>Backspace</kbd> or <kbd>Ctrl</kbd> + <kbd>Delete</kbd> | Clear the workflow, after confirmation |
-
-## Right-to-left
-
-To display the designer from right to left, set `enableRtl` to `true`:
-
-{% tabs %}
-{% highlight ts tabtitle="App.tsx" %}
-
-import * as React from 'react';
-import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
-
-function WorkflowCanvas() {
-    return <WorkflowDesignerComponent id="workflow" enableRtl={true} height="450px" />;
-}
-
-{% endhighlight %}
-{% endtabs %}
 
 ## See also
 

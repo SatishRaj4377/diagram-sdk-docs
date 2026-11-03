@@ -15,23 +15,22 @@ The Syncfusion<sup style="font-size:70%">&reg;</sup> Workflow Designer is a visu
 
 ## Key features
 
-* **Visual canvas:** Drag, connect, select, pan, and zoom steps. Undo and redo are built in, and automatic layout arranges the workflow for you.
+* **Visual canvas:** Add and connect steps, select them, and pan or zoom the canvas. Undo and redo are built in, and automatic layout arranges the workflow for you.
 * **18 built-in step types:** Triggers, data operations, branching, loops, approvals, notifications, AI, formatting, and custom steps.
 * **Property panel:** Every step type has its own editor, with expression support for reading data from earlier steps.
-* **In-browser execution:** Run the whole workflow or start from a single step. Each run reports its progress through events.
-* **Host integration:** Your application delivers notifications, collects approvals, supplies credentials, and runs custom steps through events.
+* **In-browser execution:** Run the whole workflow from a trigger, or execute one selected step on its own. Executing a single step runs only that step; it doesn't continue to the steps connected after it. Each run reports its progress through events.
+* **Host integration:** Your application delivers notifications and runs custom steps.
 * **Validation:** Structural and configuration errors are reported before a run starts.
 * **Import and export:** Save and load workflows as JSON.
 * **AI Assist:** Generate a workflow, or change the current one, from a natural-language prompt.
 * **Sticky notes:** Document the workflow on the canvas with Markdown notes.
-* **Localization and accessibility:** Translate all text, display the designer from right to left (RTL), and use keyboard shortcuts for common commands.
+* **Localization and accessibility:** Translate the designer text and use keyboard shortcuts for common commands.
 
 ## Layout
 
-
 | Region | Description |
 |---|---|
-| Top toolbar | The Execute, Layout, Lock, Undo, Redo, Import, and Export commands. |
+| Top toolbar | The Execute, Stop, Layout, Lock, Undo, Redo, Import, and Export commands. While a workflow is running, the Execute command is replaced by Stop. |
 | Step collection | The panel that users pick new steps from. It opens when the user adds a step. |
 | Canvas | The workflow diagram, with a floating canvas toolbar at the bottom. |
 | Property panel | The editor for the selected step or connection. |
@@ -54,7 +53,7 @@ N> Workflows run in the user's browser, and API Request and AI steps make real n
 
 ## Sample browser
 
-To see the Workflow Designer in action, open the [Default Functionalities demo](https://npmci.syncfusion.com/development/javascript/demos/#/tailwind3/workflow-designer/default-functionalities.html) in the JavaScript sample browser.
+To see the Workflow Designer in action, open the [Default Functionalities demo](https://ej2.syncfusion.com/javascript/demos/#/tailwind3/workflow-designer/default-functionalities.html) in the JavaScript sample browser.
 
 ## Next steps
 

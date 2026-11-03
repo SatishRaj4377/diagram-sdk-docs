@@ -20,9 +20,9 @@ A Webhook Trigger step starts the workflow when your backend receives an HTTP ca
 | `method` | The expected HTTP method. |
 | `path` | The expected path. |
 | `authMode` | `'None'`, `'Basic'`, `'ApiKeyHeader'`, `'Bearer'`, `'HmacSha256'`, or `'Custom'`. |
-| `authRef`, `authHeaderName`, `authSignatureHeaderName` | The details your backend uses to verify the request. |
+| `authRef`, `authHeaderName`, `authSignatureHeaderName` | The details your backend uses to verify the request: the credential name (**Credential Reference**), the API key header name, and the signature header name. The designer doesn't verify requests itself. |
 | `responseMode`, `responseCode`, `responseBody` | The response your backend returns. Set `responseMode` to `'Immediate'`. |
-| `payloadSchema` | The fields of the expected payload. The variable picker uses them. |
+| `payloadSchema` | The fields that the payload is expected to contain. Displayed as **Payload Schema**. |
 
 ## Forward a webhook to the designer
 
@@ -48,7 +48,19 @@ connection.on('WorkflowWebhookTriggered', async (message: WorkflowWebhookTrigger
 {% endhighlight %}
 {% endtabs %}
 
-The message contains `workflowId`, `triggerId`, `payload`, `method`, `path`, `context`, and `authenticated`. In the workflow, the payload is available as `$.input.response` and the request details as `$.input.webhook`.
+The message (`WorkflowWebhookTriggerMessage`) contains the following properties:
+
+| Property | Description |
+|---|---|
+| `workflowId` | Required. The `id` of the loaded workflow. |
+| `triggerId` | Required. The identifier of the Webhook Trigger step to start from. |
+| `payload` | The body of the webhook request. |
+| `method`, `path` | The HTTP method and path of the request. They must match the trigger's settings. |
+| `authenticated` | Set it to `true` after your backend has verified the request. Required when the trigger's `authMode` isn't `'None'`. |
+| `eventId`, `executionId`, `receivedAt` | Optional values for correlation and logging. |
+| `context` | Optional request details for logging, such as the headers and the source IP address. |
+
+The payload becomes the response of the Webhook Trigger step. To use it in later steps, open the variable picker and select the value from the card of the Webhook Trigger step. For example, the `orderId` field of the payload of a trigger with the identifier `orderCreated` is inserted as <code>&#123;&#123;$.nodes["orderCreated"].response.orderId&#125;&#125;</code>.
 
 ## Errors
 

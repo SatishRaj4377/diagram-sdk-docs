@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Accessibility in Angular Workflow Designer | Syncfusion®
-description: Learn about keyboard shortcuts, screen reader support and right-to-left layout in the Syncfusion Angular Workflow Designer.
+description: Learn about keyboard shortcuts, screen reader support in the Syncfusion Angular Workflow Designer.
 platform: diagram-sdk
 control: Workflow Designer
 publishingplatform: diagram-sdk
@@ -37,28 +37,6 @@ On macOS, use <kbd>⌘</kbd> instead of <kbd>Ctrl</kbd>. Shortcuts aren't handle
 | <kbd>Enter</kbd> | Open the selected item in the property panel |
 | <kbd>Alt</kbd> + <kbd>N</kbd> | Add the next step |
 | <kbd>Ctrl</kbd> + <kbd>Backspace</kbd> or <kbd>Ctrl</kbd> + <kbd>Delete</kbd> | Clear the workflow, after confirmation |
-
-## Right-to-left
-
-To display the designer from right to left, set `enableRtl` to `true`:
-
-{% tabs %}
-{% highlight ts tabtitle="app.component.ts" %}
-
-import { Component } from '@angular/core';
-import { WorkflowDesignerModule } from '@syncfusion/ej2-angular-workflow-designer';
-
-@Component({
-    selector: 'app-root',
-    standalone: true,
-    imports: [WorkflowDesignerModule],
-    template: "<ejs-workflowdesigner id=\"workflow\" [enableRtl]=\"true\" height=\"450px\"></ejs-workflowdesigner>"
-})
-export class AppComponent {
-}
-
-{% endhighlight %}
-{% endtabs %}
 
 ## See also
 

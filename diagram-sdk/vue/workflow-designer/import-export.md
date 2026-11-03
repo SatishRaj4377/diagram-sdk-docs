@@ -10,11 +10,11 @@ domainurl: https://help.syncfusion.com/diagram-sdk
 
 # Import and export in Vue Workflow Designer
 
-Workflows are saved as JSON (`WorkflowDefinitionModel`) with the `schemaVersion`, `id`, `name`, `workflowSteps`, `workflowConnections`, and `stickyNotes` properties.
+Workflows are saved and loaded as JSON. A workflow contains the `id`, `name`, `workflowSteps`, `workflowConnections`, and `stickyNotes` properties. Exported JSON also contains a `schemaVersion` value that identifies its format; keep it unchanged when you store the JSON.
 
 ## Export
 
-Export the workflow as a JSON string, as an object, or as a file download:
+To get the current workflow as a JSON string, call [`exportWorkflow`](https://ej2.syncfusion.com/vue/documentation/api/workflow-designer/#exportworkflow). You can then store the string, for example in your database:
 
 {% tabs %}
 {% highlight html tabtitle="App.vue" %}
@@ -26,101 +26,65 @@ Export the workflow as a JSON string, as an object, or as a file download:
 <script setup>
 import { onMounted, ref } from 'vue';
 import { WorkflowDesignerComponent as EjsWorkflowdesigner } from '@syncfusion/ej2-vue-workflow-designer';
+
 const designer = ref(null);
 
 onMounted(() => {
-    const json = designer.value.ej2Instances.exportWorkflow();      // JSON string
-    const copy = designer.value.ej2Instances.getWorkflow();                 // Object copy
-    designer.value.ej2Instances.saveWorkflow('order-check.json');           // Browser download
+    const json = designer.value.ej2Instances.exportWorkflow();
+    // myApi stands for your application's save endpoint.
+    myApi.save(json);
 });
 </script>
 
 {% endhighlight %}
 {% endtabs %}
 
-Users can also export with the **Export** toolbar command or by pressing <kbd>Ctrl</kbd> + <kbd>S</kbd>.
+Users can also export the workflow as a JSON file with the **Export** toolbar command or by pressing <kbd>Ctrl</kbd> + <kbd>S</kbd>.
 
-N> Secrets are never exported. This includes inline AI keys and the values of sensitive request headers: `Authorization`, and header names that contain `secret`, `token`, or `password`. Credential references (`authRef` and `credentialRef`) are kept. In `'Inline'` credential mode, users must enter keys again after import.
+N> Secrets are never exported. This includes inline AI keys and the values of sensitive request headers: `Authorization`, and header names that contain `secret`, `token`, or `password`. The credential name in `authRef` is kept. In `'Inline'` credential mode, users must enter AI keys again after an import.
 
 ## Import
 
-[`importWorkflow`](https://ej2.syncfusion.com/vue/documentation/api/workflow-designer/#importworkflow) accepts a JSON string, an object, or a `File`, and returns a promise. The following example imports a file that the user selects:
+[`importWorkflow`](https://ej2.syncfusion.com/vue/documentation/api/workflow-designer/#importworkflow) accepts a JSON string, a workflow object, or a `File`, and returns a promise. The following example imports a file that the user selects:
 
 {% tabs %}
 {% highlight html tabtitle="App.vue" %}
 
 <template>
     <ejs-workflowdesigner ref="designer"></ejs-workflowdesigner>
-    <input ref="fileInput" id="fileInput" type="file" />
+    <input type="file" @change="handleFileChange" />
 </template>
 
 <script setup>
-
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { WorkflowDesignerComponent as EjsWorkflowdesigner } from '@syncfusion/ej2-vue-workflow-designer';
-const designer = ref(null);
-const fileInput = ref(null);
 
-onMounted(() => {
-    fileInput.value.addEventListener('change', (event) => {
-        designer.value.ej2Instances.importWorkflow(event.target.files[0]).catch((error) => {
+const designer = ref(null);
+
+function handleFileChange(event) {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+        designer.value.ej2Instances.importWorkflow(file).catch((error) => {
             console.error(error.code, error.message);
         });
-    });
-});
-</script>
-
-{% endhighlight %}
-{% endtabs %}
-
-Keep the following in mind when importing:
-
-* Files larger than 5 MB are rejected.
-* Workflows with an unknown schema version are rejected.
-* Any active run is stopped before the workflow is replaced.
-
-For the structural errors that reject an import, see [Validation on import](./validation#validation-on-import).
-
-## Track unsaved changes
-
-Use `isDirty` to check for unsaved changes, and call `markClean` after you save:
-
-{% tabs %}
-{% highlight html tabtitle="App.vue" %}
-
-<template>
-    <ejs-workflowdesigner ref="designer"></ejs-workflowdesigner>
-</template>
-
-<script setup>
-import { onMounted, ref } from 'vue';
-import { WorkflowDesignerComponent as EjsWorkflowdesigner } from '@syncfusion/ej2-vue-workflow-designer';
-const designer = ref(null);
-
-function save(){
-    // myApi stands for your application's save endpoint.
-    myApi.save(designer.value.ej2Instances.exportWorkflow()).then(() => designer.value.ej2Instances.markClean());
+    }
 }
-
-onMounted(() => {
-    window.addEventListener('beforeunload', (e) => {
-        if (designer.value.ej2Instances.isDirty()) { e.preventDefault(); }
-    });
-});
 </script>
 
 {% endhighlight %}
 {% endtabs %}
 
-## Edit the workflow from code
+Users can also import a JSON file with the **Import** toolbar command or by pressing <kbd>Ctrl</kbd> + <kbd>O</kbd>.
 
-| Method | Description |
+When the import succeeds, any active run is stopped, the workflow is replaced, and the canvas is fitted to the page. When the import fails, the promise rejects, and the current workflow is left unchanged. The error's `code` tells you why:
+
+| Code | Reason |
 |---|---|
-| `addWorkflowItem(item)` | Adds a step (an object with `stepType`), a connection (an object with `sourceStepId` and `targetStepId`), or a sticky note. |
-| `updateWorkflowItem(id, changes, silent?)` | Updates the given properties. The `id` can't be changed. |
-| `removeWorkflowItem(id)` | Removes an item. Removing a step also removes its connections. |
-| `clearWorkflow()` | Removes everything, without asking for confirmation. |
-| `layoutWorkflow()` | Arranges the steps automatically. |
-| `undo()`, `redo()` | Reverts or reapplies changes. |
+| `IMPORT_INVALID_JSON` | The input isn't valid JSON. |
+| `IMPORT_TOO_LARGE` | The file or JSON is larger than 5 MB. |
+| `IMPORT_UNSUPPORTED_VERSION` | The JSON doesn't have a supported `schemaVersion` value. Workflows exported by the Workflow Designer always have one. |
+| `IMPORT_IDS` | A step, connection, or sticky note has an empty or duplicated identifier. |
+| `IMPORT_INVALID` | The JSON doesn't have the shape of a workflow, for example, `workflowSteps` isn't an array. |
+| `IMPORT_INVALID_STRUCTURE` | The workflow has a structural error, such as a duplicate identifier or a cycle. The error's `messages` property lists the problems. See [Validation on import](./validation#validation-on-import). |
 
-These methods do nothing and return `false` when the designer is read-only or the item is invalid.
+To change a step, connection, or sticky note after the designer is rendered, see [Update workflow properties at runtime](./update-workflow).

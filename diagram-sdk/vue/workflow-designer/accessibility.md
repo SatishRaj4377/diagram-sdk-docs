@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Accessibility in Vue Workflow Designer | Syncfusion®
-description: Learn about keyboard shortcuts, screen reader support and right-to-left layout in the Syncfusion Vue Workflow Designer.
+description: Learn about keyboard shortcuts, screen reader support in the Syncfusion Vue Workflow Designer.
 control: Workflow Designer
 platform: diagram-sdk
 documentation: ug
@@ -36,26 +36,6 @@ On macOS, use <kbd>⌘</kbd> instead of <kbd>Ctrl</kbd>. Shortcuts aren't handle
 | <kbd>Enter</kbd> | Open the selected item in the property panel |
 | <kbd>Alt</kbd> + <kbd>N</kbd> | Add the next step |
 | <kbd>Ctrl</kbd> + <kbd>Backspace</kbd> or <kbd>Ctrl</kbd> + <kbd>Delete</kbd> | Clear the workflow, after confirmation |
-
-## Right-to-left
-
-To display the designer from right to left, set `enableRtl` to `true`:
-
-{% tabs %}
-{% highlight html tabtitle="App.vue" %}
-
-<template>
-    <ejs-workflowdesigner :enableRtl="enableRtl"></ejs-workflowdesigner>
-</template>
-
-<script setup>
-import { WorkflowDesignerComponent as EjsWorkflowdesigner } from '@syncfusion/ej2-vue-workflow-designer';
-
-const enableRtl = true;
-</script>
-
-{% endhighlight %}
-{% endtabs %}
 
 ## See also
 

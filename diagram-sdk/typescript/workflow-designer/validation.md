@@ -15,20 +15,17 @@ The designer validates the workflow before every run. Errors stop the run, while
 
 To validate the workflow from code, call [`validateWorkflow`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#validateworkflow):
 
+The following example validates the loaded workflow when the **Validate workflow** button is clicked:
+
 {% tabs %}
-{% highlight ts tabtitle="app.ts" %}
-
-import { WorkflowValidationResult, WorkflowValidationMessage } from '@syncfusion/ej2-workflow-designer';
-
-const result: WorkflowValidationResult = designer.validateWorkflow();
-if (!result.isValid) {
-    result.messages
-        .filter((m: WorkflowValidationMessage) => m.type === 'Error')
-        .forEach((m: WorkflowValidationMessage) => console.log(m.code, m.stepId, m.message));
-}
-
+{% highlight ts tabtitle="index.ts" %}
+{% include code-snippet/diagram-sdk/typescript/workflow-designer-validation/index.ts %}
 {% endhighlight %}
-{% endtabs %}
+{% highlight html tabtitle="index.html" %}
+{% include code-snippet/diagram-sdk/typescript/workflow-designer-validation/index.html %}
+{% endhighlight %}
+{% endtabs %}  
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/typescript/workflow-designer-validation" %}
 
 Each `WorkflowValidationMessage` contains the following properties:
 
@@ -50,7 +47,7 @@ Each `WorkflowValidationMessage` contains the following properties:
 | Switch | `SWITCH_BRANCH`, `SWITCH_BRANCH_NAME`, `SWITCH_BRANCH_UNIQUE` |
 | Set Variable | `SET_VARIABLE_REQUIRED`, `SET_VARIABLE_NAME`, `SET_VARIABLE_UNIQUE`, `SET_VARIABLE_TYPE`, `SET_VARIABLE_VALUE`, `SET_VARIABLE_MATH`, `SET_VARIABLE_ZERO` |
 | Form input | `FORM_FIELDS`, `FORM_FIELD_NAME`, `FORM_FIELD_TYPE`, `FORM_FIELD_UNIQUE`, `FORM_FIELD_OPTIONS` |
-| Scheduled trigger | `SCHEDULE_TYPE`, `SCHEDULE_INTERVAL` |
+| Scheduled trigger | `SCHEDULE_TYPE`, `SCHEDULE_INTERVAL`. Problems with the schedule dates, time zone, or cron expression, such as `SCHEDULE_START` and `CRON_INVALID`, are reported in the execution log when the run starts. |
 | Webhook trigger | `WEBHOOK_METHOD`, `WEBHOOK_PATH`, `WEBHOOK_AUTH`, `WEBHOOK_AUTH_MODE`, `WEBHOOK_AUTH_HEADER`, `WEBHOOK_AUTH_SIG_HEADER`, `WEBHOOK_RESPONSE_CODE` |
 | Other steps | `DELAY_DURATION`, `DELAY_DYNAMIC`, `LOOP_MAX`, `APPROVE_REVIEWERS`, `APPROVE_REQUEST_FIELDS`, `URL_PROTOCOL` |
 | Expressions and secrets | `EXPRESSION_SYNTAX`, `SECRET_FORBIDDEN` |

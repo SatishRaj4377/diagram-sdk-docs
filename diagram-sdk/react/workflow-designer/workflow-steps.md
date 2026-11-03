@@ -21,8 +21,6 @@ A step is a unit of work in a workflow. Every step is a `WorkflowStep` object wi
 | `props` | `object` | The step settings. They depend on `stepType` and must be JSON-safe. |
 | `customProps` | `object` | Application data that's saved with the step but not used by the designer. |
 | `position` | `{ x, y }` | The position on the canvas. |
-| `size` | `{ width, height }` | The step size. When it isn't set, the default size is used. |
-| `errorHandling` | `WorkflowStepErrorHandling` | Timeout, retry, and continue-on-error behavior. See [Error handling](./execution#error-handling). |
 
 String settings accept [expressions](./expressions), such as <code>&#123;&#123;$.previousStep.response.body.id&#125;&#125;</code>.
 
@@ -41,8 +39,7 @@ The `id` of a step, connection, or sticky note must follow these rules:
 
 The designer handles an identifier that's missing, invalid, reserved, or duplicated as follows:
 
-* `addWorkflowItem` ignores the item and returns `false`.
-* `importWorkflow` rejects the workflow with `IMPORT_INVALID_STRUCTURE`.
+* `importWorkflow` rejects the workflow with the code `IMPORT_IDS` or `IMPORT_INVALID_STRUCTURE`. See [Import](./import-export#import).
 * `validateWorkflow` reports `ID_REQUIRED`, `ID_INVALID`, or `ID_DUPLICATE`.
 
 ## Triggers
@@ -66,7 +63,12 @@ Every workflow starts from a trigger. When a workflow has more than one trigger,
 | `endDateTime`, `maxOccurrences` | Optional limits. |
 | `timeZone` | The IANA time zone that the schedule uses. |
 
-N> A `'Once'` schedule runs only when you start it manually. `'Recurring'` and `'Cron'` schedules fire automatically after the run starts, and they keep firing until the run is stopped. Schedules run only while the browser tab is open.
+A schedule is activated in two stages:
+
+1. The user starts the run by clicking **Execute**, or your code calls `runExecution`. The trigger is then armed, and the execution log shows when the workflow is scheduled to run.
+2. The trigger starts the workflow when the configured time is reached. A `'Once'` schedule runs the workflow once at `startDateTime`; if that time has already passed, the workflow runs immediately. `'Recurring'` and `'Cron'` schedules run the workflow at each occurrence until the end date or the maximum number of occurrences is reached, or until the user clicks **Stop**.
+
+N> Schedules run only while the page is open. Closing or reloading the page cancels the schedule.
 
 ### Webhook trigger
 
@@ -85,11 +87,13 @@ N> A `'Once'` schedule runs only when you start it manually. `'Recurring'` and `
 
 ### Set variable
 
-`SetVariable` stores values in `$.variables` for later steps.
+`SetVariable` creates named values that later steps can use.
 
 | Setting | Description |
 |---|---|
 | `variables` | A list of `{ variableName, value, valueType }` items. `valueType` is `'Auto'`, `'String'`, `'Number'`, `'Boolean'`, or `'Json'`. For arithmetic, set `isMathOperation: true` with `firstValue`, `operator`, and `secondValue`. |
+
+The variables become the response of the Set Variable step. To use one in a later step, open the variable picker, expand the card of that Set Variable step, and select the variable. For example, a variable named `status` on a step with the identifier `setStatus` is inserted as <code>&#123;&#123;$.nodes["setStatus"].response.status&#125;&#125;</code>.
 
 ### Filter
 
@@ -97,8 +101,8 @@ N> A `'Once'` schedule runs only when you start it manually. `'Recurring'` and `
 
 | Setting | Description |
 |---|---|
-| `itemsPath` | An expression for the list, such as `$.previousStep.response.body.items`. |
-| `conditions` | [Condition rules](#condition-rules) that are evaluated against each item. |
+| `itemsPath` | An expression for the list, such as `$.nodes["getOrders"].response.body.items`. |
+| `conditions` | [Condition rules](#condition-rules) that are evaluated against each item. In the variable picker, the **Array item fields** card lists the fields of the items. |
 | `conditionLogic` | `'AND'` or `'OR'`. |
 
 ### Sort
@@ -113,11 +117,14 @@ N> A `'Once'` schedule runs only when you start it manually. `'Recurring'` and `
 |---|---|
 | `method` | `'GET'`, `'POST'`, `'PUT'`, `'PATCH'`, or `'DELETE'`. |
 | `url` | An `http` or `https` URL. |
-| `headers`, `queryParams` | Lists of `{ key, value }` pairs. |
-| `bodyType`, `body` | `'Json'`, `'Text'`, or `'Expression'`. GET and DELETE requests don't send a body. |
-| `authRef` | The name of a credential that's resolved through the `credentialRequested` event. |
+| `queryParams` | The query parameters, as a list of `{ key, value }` pairs. Displayed as **Query Parameters**. |
+| `headers` | The request headers, as a list of `{ key, value }` pairs. Set them in the workflow JSON or in the [`beforeRequestSend`](./host-integration#intercept-requests) event. |
+| `bodyType`, `body` | `bodyType` is `'Json'`, `'Text'`, or `'Expression'`. GET and DELETE requests don't send a body. |
+| `authRef` | Displayed as **Auth Reference**. The name of a credential. Only the name is saved with the workflow, never a secret. |
 
-The step's response contains `status`, `statusText`, `headers`, and `body`. A response status outside the 2xx range fails the step. Page cookies are never sent.
+The step's response contains `status`, `statusText`, `headers`, and `body`. A response status outside the 2xx range fails the step.
+
+Requests are sent with the Fetch API option `credentials: 'omit'`, so the browser never adds the page's cookies or HTTP authentication. Headers that you configure explicitly, such as an `Authorization` header, are still sent. The target server must allow cross-origin requests (CORS) from your page.
 
 ### Delay
 
@@ -156,7 +163,8 @@ The step's response contains `status`, `statusText`, `headers`, and `body`. A re
 | Setting | Description |
 |---|---|
 | `branches` | A list of `{ branchName, condition }` items. Each branch name becomes an output port. |
-| `defaultBranch` | The branch that's used when no condition matches. |
+
+A Switch step also has a `default` output port, which the run continues from when no branch condition matches.
 
 ### Loop
 
@@ -165,10 +173,16 @@ The step's response contains `status`, `statusText`, `headers`, and `body`. A re
 | Setting | Description |
 |---|---|
 | `itemsPath` | An expression for the list. A single value is treated as a one-item list, and a missing value loops zero times. |
-| `itemFields` | Optional field descriptions for the current item. The variable picker uses them. |
 | `maxIterations` | The maximum number of iterations. |
 
-Inside the loop, read the current item from `$.loop.currentItem` and its position from `$.loop.index`.
+For steps inside the loop, the variable picker shows a **Loop** card with the following values:
+
+| Value | Expression |
+|---|---|
+| The item of the current iteration | `$.loop.currentItem` |
+| The zero-based position of the current item | `$.loop.index` |
+| The number of items | `$.loop.count` |
+| The whole list | `$.loop.all` |
 
 ### End
 
@@ -184,9 +198,9 @@ Inside the loop, read the current item from `$.loop.currentItem` and its positio
 |---|---|
 | `reviewers` | A list of `{ type, value }` items. `type` is `'User'`, `'Role'`, `'Group'`, or `'Email'`. |
 | `requestMessage` | The message shown to the reviewer. |
-| `requestFields` | A list of `{ label, value }` items shown with the request. |
+| `requestFields` | Displayed as **Request Details**. A list of `{ label, value }` items shown with the request. |
 
-Handle the `approvalRequested` event to route the request to your approval system. When the event isn't handled, the designer shows a built-in approval dialog. See [Approvals](./host-integration#approvals).
+When an Approve step runs, the designer shows a built-in approval dialog. The run continues from the `approved` or `declined` port, depending on the decision made in the dialog.
 
 ### Notify
 
@@ -205,19 +219,20 @@ Handle the `notifyRequested` event to deliver the notification. See [Notificatio
 
 ## AI
 
-`AI` sends a prompt to an AI provider and passes the answer to the next step.
+`AI` sends a prompt to an AI provider and passes the answer to the next step. The settings that the property panel shows depend on `executionSettings.credentialMode`. For details, see [Credential mode](./security#credential-mode).
 
-| Setting | Description |
-|---|---|
-| `provider`, `model` | The provider (`'Gemini'`, `'OpenAI'`, or `'Claude'`) and the model name. |
-| `credentialRef` | The name of a credential that's resolved through `credentialRequested`. Used when `credentialMode` is `'Reference'`. |
-| `apiKey` | A raw key. It's available only when `credentialMode` is `'Inline'`. Use it for development only. |
-| `serverUrl` | An optional backend that receives the request instead of the provider. |
-| `systemPrompt`, `prompt` | The instructions and the prompt. Both accept expressions. |
-| `outputFormat` | `'Text'`, `'JSON'`, or `'Markdown'`. |
-| `responseFields` | For `'JSON'`: the expected fields, each with a `name`, `type`, and `description`. |
-| `memoryEnabled`, `contextWindowLength`, `sessionKey` | Conversation memory, which is kept in session storage. |
-| `timeoutSeconds` | The step timeout. |
+| Setting | Displayed as | Description |
+|---|---|---|
+| `serverUrl` | **Server URL** | Your backend endpoint, which receives the request and calls the AI provider. Shown when `credentialMode` is `'Reference'` (the default). |
+| `provider` | **Provider** | `'Gemini'`, `'OpenAI'`, or `'Claude'`. Shown when `credentialMode` is `'Inline'`. |
+| `model` | **Model** | The model name. Shown when `credentialMode` is `'Inline'`. |
+| `apiKey` | **API Key** | A raw provider key, used directly from the browser. Shown when `credentialMode` is `'Inline'`. It's never exported. Use it for development only. |
+| `memoryEnabled` | **Conversation Memory** | When `true`, the step remembers its recent prompts and answers from earlier runs and sends them with each new request. The history is kept in the browser's session storage, so it's cleared when the browser tab is closed. |
+| `memoryHistorySize` | **Memory History Size** | The number of recent prompt-and-answer pairs to remember, from 1 to 50. Defaults to `10`. Shown when **Conversation Memory** is selected. |
+| `systemPrompt`, `prompt` | **System Prompt**, **Prompt** | The instructions and the prompt. Both accept expressions. |
+| `outputFormat` | **Output Format** | `'Text'`, `'JSON'`, or `'Markdown'`. |
+| `timeoutSeconds` | **Timeout (seconds)** | The time the step can take before it fails. Defaults to `30`. |
+| `responseFields` | **Desired Response Fields** | For `'JSON'` output, the fields that the answer should contain, each with a `name`, `type`, and `description`. |
 
 ## Condition rules
 
@@ -235,5 +250,5 @@ The supported operators are `Equal`, `NotEqual`, `Contains`, `NotContains`, `Sta
 ## See also
 
 * [Connections and ports](./connections)
-* [Expressions and runtime context](./expressions)
+* [Expressions and the variable picker](./expressions)
 * [Validation](./validation)

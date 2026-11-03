@@ -11,11 +11,18 @@ domainurl: https://help.syncfusion.com/diagram-sdk
 
 # Customize the user interface in Angular Workflow Designer
 
-You can show, hide, and configure each part of the Workflow Designer: the top toolbar, the canvas toolbar, the panels, and the canvas. You can also add sticky notes and set the size of the designer.
+You can show, hide, and configure the top toolbar, the canvas toolbar, the step collection, the property panel, and the execution log. You can also configure the canvas behavior, add sticky notes, and set the size of the designer. The canvas itself is always displayed.
 
 ## Top toolbar
 
-Use [`toolbarSettings`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#toolbarsettings) to show or hide the toolbar and choose its commands. The available commands are `'Undo'`, `'Redo'`, `'Layout'`, `'Execute'`, `'Lock'`, `'Export'`, and `'Import'`. They always appear in a fixed order, regardless of the order you list them in.
+Use [`toolbarSettings`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#toolbarsettings) to show or hide the toolbar and choose its commands.
+
+| Property | Default | Description |
+|---|---|---|
+| `visible` | `true` | Shows the top toolbar. |
+| `items` | `['Undo', 'Redo', 'Layout', 'Execute', 'Lock', 'Export', 'Import']` | The commands to show: `'Execute'`, `'Layout'`, `'Lock'`, `'Undo'`, `'Redo'`, `'Import'`, and `'Export'`. |
+
+The commands always appear in the order Execute, Layout, Lock, Undo, Redo, Import, Export, regardless of the order you list them in. While a workflow is running, the **Execute** command is replaced by **Stop**, which stops the run. Stop isn't a separate item; it's available whenever `'Execute'` is in the list.
 
 {% tabs %}
 {% highlight ts tabtitle="app.component.ts" %}
@@ -39,7 +46,12 @@ export class AppComponent {
 
 ## Canvas toolbar
 
-Use [`canvasToolbarSettings`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#canvastoolbarsettings) to configure the floating toolbar at the bottom of the canvas. The available commands are `'Add'`, `'StickyNote'`, `'Select'`, `'Pan'`, `'ZoomOut'`, `'ZoomIn'`, `'Fit'`, `'ResetZoom'`, and `'Clear'`.
+Use [`canvasToolbarSettings`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#canvastoolbarsettings) to configure the floating toolbar at the bottom of the canvas.
+
+| Property | Default | Description |
+|---|---|---|
+| `visible` | `true` | Shows the canvas toolbar. |
+| `items` | All commands | The commands to show: `'Add'`, `'StickyNote'`, `'Select'`, `'Pan'`, `'ZoomOut'`, `'ZoomIn'`, `'Fit'`, `'ResetZoom'`, and `'Clear'`. |
 
 {% tabs %}
 {% highlight ts tabtitle="app.component.ts" %}
@@ -61,24 +73,67 @@ export class AppComponent {
 {% endhighlight %}
 {% endtabs %}
 
-## Panels
+## Step collection
 
-| Setting | Properties |
-|---|---|
-| `stepCollectionSettings` | `visible`: When `false`, users can't add steps from the canvas. |
-| `propertyPanelSettings` | `visible` and `openOnStepSelection`. When `openOnStepSelection` is `true`, the panel opens with a single click. By default, it opens on double-click or when the user presses <kbd>Enter</kbd>. |
-| `executionLogSettings` | `visible`. |
+Use `stepCollectionSettings` to configure the panel that users pick new steps from. The panel opens when the user adds a step and is collapsed otherwise.
+
+| Property | Default | Description |
+|---|---|---|
+| `visible` | `true` | When `false`, users can't add steps from the canvas, and the **Add** commands are disabled. |
+
+## Property panel
+
+Use `propertyPanelSettings` to configure the panel that edits the selected step or connection.
+
+| Property | Default | Description |
+|---|---|---|
+| `visible` | `true` | When `false`, the property panel never opens. |
+| `openOnStepSelection` | `false` | When `true`, the panel opens when the user selects a step with a single click. When `false`, the user double-clicks a step or connection, or presses <kbd>Enter</kbd>, to open it. Once the panel is open, it follows the selection. |
+
+Selecting a sticky note doesn't open the property panel.
+
+## Execution log
+
+The execution log is the panel docked below the canvas. During a run, it lists the progress, status, input, and output of each step, and users can select a row to inspect the data at that step. The log is collapsed when the designer is first displayed; users can expand it, search it, and clear it.
+
+Use `executionLogSettings` to configure the log:
+
+| Property | Default | Description |
+|---|---|---|
+| `visible` | `true` | When `false`, the execution log isn't rendered. Runs still work, and the [execution events](./execution#execution-events) are still triggered, so you can show the progress in your own UI. |
+
+Changing `executionLogSettings` at runtime rebuilds the log, so entries from earlier runs are cleared.
+
+{% tabs %}
+{% highlight ts tabtitle="app.component.ts" %}
+
+import { Component } from '@angular/core';
+import { WorkflowDesignerModule } from '@syncfusion/ej2-angular-workflow-designer';
+
+@Component({
+    selector: 'app-root',
+    standalone: true,
+    imports: [WorkflowDesignerModule],
+    template: "<ejs-workflowdesigner id=\"workflow\" height=\"500px\" [executionLogSettings]=\"executionLogSettings\"></ejs-workflowdesigner>"
+})
+export class AppComponent {
+    public executionLogSettings = { visible: false };
+}
+
+{% endhighlight %}
+{% endtabs %}
 
 ## Canvas
 
-| `workflowSettings` property | Default | Description |
-|---|---|---|
-| `tools` | `'SingleSelection'` | `'SingleSelection'`, `'MultiSelection'`, or `'ZoomPan'`. |
-| `minZoom`, `maxZoom` | `0.2`, `30` | The zoom range, where `1` is 100%. |
-| `showGridLines` | `true` | Shows grid lines. |
-| `readOnly` | `false` | A viewing mode. Users can't change the workflow, but `importWorkflow` still works. |
+Use `workflowSettings` to configure the canvas behavior:
 
-To control the view from code, use `fitToPage()`, `zoomTo(zoom)`, `selectItem(id)`, and `bringIntoView(id)`.
+| Property | Default | Description |
+|---|---|---|
+| `tool` | `'SingleSelection'` | The active canvas tool: `'SingleSelection'`, `'MultiSelection'`, or `'ZoomPan'`. |
+| `minZoom` | `0.2` | The minimum zoom level, where `1` is 100%. |
+| `maxZoom` | `30` | The maximum zoom level, where `1` is 100%. |
+| `showGridLines` | `true` | Shows grid lines on the canvas. |
+| `readOnly` | `false` | A viewing mode. Users can't edit or import a workflow. They can still start a run and export the workflow. |
 
 The following example creates a read-only viewer without grid lines, the top toolbar, or the step collection:
 
@@ -106,30 +161,14 @@ export class AppComponent {
 
 ## Sticky notes
 
-Sticky notes document a workflow and never run. Their text supports basic Markdown: headings, bold, italic, inline code, and bulleted lists. To add a note, use the **Sticky Note** canvas command or press <kbd>Shift</kbd> + <kbd>S</kbd>. You can also add one from code:
-
-{% tabs %}
-{% highlight ts tabtitle="app.component.ts" %}
-
-import { Component, ViewChild } from '@angular/core';
-import { WorkflowDesignerModule, WorkflowDesignerComponent } from '@syncfusion/ej2-angular-workflow-designer';
-
-@Component({
-    selector: 'app-root',
-    standalone: true,
-    imports: [WorkflowDesignerModule],
-    template: "<ejs-workflowdesigner #workflow id=\"workflow\" height=\"500px\"></ejs-workflowdesigner><button type=\"button\" (click)=\"addStickyNote()\">Add sticky note</button>"
-})
-export class AppComponent {
-    @ViewChild('workflow') public workflowDesigner!: WorkflowDesignerComponent;
-
-    addStickyNote(): void { this.workflowDesigner.addWorkflowItem({ id: 'note1', text: '## Payment check\nRuns **every hour**.', position: { x: 80, y: 40 }, size: { width: 240, height: 140 } }); }
-}
-
-{% endhighlight %}
-{% endtabs %}
+Sticky notes document a workflow and never run. Their text supports basic Markdown: headings, bold, italic, inline code, and bulleted lists. To add a note, use the **Sticky Note** canvas command or press <kbd>Shift</kbd> + <kbd>S</kbd>.
 
 
 ## Dimensions
 
-The `width` and `height` properties accept pixels or any CSS length, and both default to `'100%'`. When you use percentages, make sure the parent element has a height.
+Use the `width` and `height` properties to set the size of the designer. Both default to `'100%'`.
+
+* A number is treated as pixels. For example, `640` is the same as `'640px'`.
+* A string is used as a CSS length, such as `'800px'`, `'100%'`, or `'80vh'`.
+
+When you use a percentage height, make sure the parent element has a height. Otherwise, the designer has no height to fill.
