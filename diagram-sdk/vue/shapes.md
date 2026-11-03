@@ -192,7 +192,7 @@ The following example demonstrates how to modify a node and refresh its template
 {% endhighlight %}
 {% endtabs %}
 
-{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/vue/shapes-refreshTemplate" %}
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/vue/shapes/shapes-refreshTemplate" %}
 
 ## Native
 

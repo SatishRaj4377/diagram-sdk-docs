@@ -183,7 +183,7 @@ The following example demonstrates how to modify an annotation and refresh its t
 {% endhighlight %}
 {% endtabs %}
         
-{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/vue/annotations-refreshTemplate" %}
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/vue/labels/annotations-refreshTemplate" %}
 
 ## Text align
 
