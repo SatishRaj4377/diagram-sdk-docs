@@ -39,13 +39,17 @@ The output ports of a step depend on its type:
 | `End` | None |
 | All other steps | `output` |
 
-The following connections route the two outcomes of an Approve step to different steps:
+The following example connects the `true` and `false` output ports of a Condition step to different End steps. Run the workflow to see which branch is followed based on the configured condition:
 
 {% tabs %}
-{% highlight ts tabtitle="workflow.ts" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/connections/connections-cs1/app/index.tsx %}
+{% highlight js tabtitle="index.jsx" %}
+{% include code-snippet/diagram-sdk/react/workflow-designer/connections/app/index.jsx %}
+{% endhighlight %}
+{% highlight ts tabtitle="index.tsx" %}
+{% include code-snippet/diagram-sdk/react/workflow-designer/connections/app/index.tsx %}
 {% endhighlight %}
 {% endtabs %}
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/react/workflow-designer/connections" %}
 
 ## Create connections interactively
 

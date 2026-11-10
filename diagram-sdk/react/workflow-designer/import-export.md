@@ -19,7 +19,30 @@ To get the current workflow as a JSON string, call [`exportWorkflow`](https://ej
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/import-export/import-export-cs1/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function WorkflowCanvas() {
+    const workflowInstance = React.useRef<WorkflowDesignerComponent>(null);
+
+    function exportWorkflow() {
+        const designer = workflowInstance.current;
+        if (designer) {
+            const json = designer.exportWorkflow();
+            // myApi stands for your application's save endpoint.
+            myApi.save(json);
+        }
+    }
+
+    return (
+        <>
+            <WorkflowDesignerComponent id="workflow" ref={workflowInstance} height="500px" />
+            <button onClick={exportWorkflow}>Export workflow</button>
+        </>
+    );
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 
@@ -33,7 +56,32 @@ N> Secrets are never exported. This includes inline AI keys and the values of se
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/import-export/import-export-cs2/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+import type { WorkflowImportError } from '@syncfusion/ej2-workflow-designer';
+
+function WorkflowCanvas() {
+    const workflowInstance = React.useRef<WorkflowDesignerComponent>(null);
+
+    function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const designer = workflowInstance.current;
+        const file = event.currentTarget.files?.[0];
+        if (designer && file) {
+            designer.importWorkflow(file).catch((error: WorkflowImportError) => {
+                console.error(error.code, error.message);
+            });
+        }
+    }
+
+    return (
+        <>
+            <WorkflowDesignerComponent id="workflow" ref={workflowInstance} height="500px" />
+            <input type="file" onChange={handleFileChange} />
+        </>
+    );
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 

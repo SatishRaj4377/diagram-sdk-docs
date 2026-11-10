@@ -40,7 +40,17 @@ The following Notify step reads data from an earlier step, a Set Variable step, 
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/expressions/expressions-cs1/app/index.tsx %}
+{% raw %}
+const notifyStep = {
+    id: 'notify', stepType: 'Notify', name: 'Notify customer',
+    props: {
+        channel: 'Email',
+        to: '{{\$.nodes["getCustomer"].response.body.email}}',
+        subject: 'Order {{\$.nodes["setOrder"].response.orderId}}',
+        message: 'Total: {{\$.previousStep.response.body.total}}'
+    }
+};
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 
@@ -50,7 +60,28 @@ To start a run with input data, pass it in the `input.response` property of the 
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/expressions/expressions-cs2/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function WorkflowCanvas() {
+    const workflowInstance = React.useRef<WorkflowDesignerComponent>(null);
+
+    async function runWithInput() {
+        const designer = workflowInstance.current;
+        if (designer) {
+            await designer.runExecution({ input: { response: { orderId: 'SO-1001' } } });
+        }
+    }
+
+    return (
+        <>
+            <WorkflowDesignerComponent id="workflow" ref={workflowInstance} height="500px" />
+            <button onClick={runWithInput}>Run with input</button>
+        </>
+    );
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 

@@ -13,13 +13,17 @@ domainurl: https://help.syncfusion.com/diagram-sdk
 
 The designer validates the workflow before every run. Errors stop the run, while warnings and info messages don't. The canvas also marks problems on the affected steps.
 
-To validate the workflow from code, call [`validateWorkflow`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#validateworkflow):
+To validate the workflow from code, call [`validateWorkflow`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#validateworkflow). The following example validates the loaded workflow when the **Validate workflow** button is clicked:
 
 {% tabs %}
-{% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/validation/validation-cs1/app/index.tsx %}
+{% highlight js tabtitle="index.jsx" %}
+{% include code-snippet/diagram-sdk/react/workflow-designer/validation/app/index.jsx %}
+{% endhighlight %}
+{% highlight ts tabtitle="index.tsx" %}
+{% include code-snippet/diagram-sdk/react/workflow-designer/validation/app/index.tsx %}
 {% endhighlight %}
 {% endtabs %}
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/react/workflow-designer/validation" %}
 
 Each `WorkflowValidationMessage` contains the following properties:
 

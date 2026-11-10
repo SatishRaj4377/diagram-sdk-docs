@@ -27,7 +27,32 @@ Handle the `notifyRequested` event to deliver the notifications that Notify step
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/host-integration/host-integration-cs1/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function WorkflowCanvas() {
+    function onNotifyRequested(args: any) {
+        fetch('/api/notify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ stepId: args.step.id, notification: args.notification }),
+            signal: args.signal
+        })
+            .then((response: Response) => {
+                if (!response.ok) {
+                    // fetch resolves for HTTP 4xx/5xx, so fail the step explicitly.
+                    args.fail(new Error('Notification failed with HTTP ' + response.status));
+                    return;
+                }
+                args.complete({ sent: true });
+            })
+            .catch((error: Error) => args.fail(error));
+    }
+
+    return <WorkflowDesignerComponent id="workflow" height="500px" notifyRequested={onNotifyRequested} />;
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 
@@ -44,13 +69,17 @@ Values from earlier steps are inserted into `args.notification` as they are. Esc
 
 ## Custom steps
 
-Handle the `customExecutionRequested` event to run the work of Custom steps. `actionType` identifies the action, and `input` holds the step's input with expressions already resolved. When no handler is bound to this event, Custom steps fail.
+Handle the `customExecutionRequested` event to run the work of Custom steps. `actionType` identifies the action, and `input` holds the step's input with expressions already resolved. When no handler is bound to this event, Custom steps fail. The following example handles a Custom step that creates an invoice and calls `complete` with the generated invoice data:
 
 {% tabs %}
-{% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/host-integration/host-integration-cs2/app/index.tsx %}
+{% highlight js tabtitle="index.jsx" %}
+{% include code-snippet/diagram-sdk/react/workflow-designer/host-integration/app/index.jsx %}
+{% endhighlight %}
+{% highlight ts tabtitle="index.tsx" %}
+{% include code-snippet/diagram-sdk/react/workflow-designer/host-integration/app/index.tsx %}
 {% endhighlight %}
 {% endtabs %}
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/react/workflow-designer/host-integration" %}
 
 ## Credentials
 
@@ -71,7 +100,28 @@ The following example blocks API requests to any host other than your own API, a
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/host-integration/host-integration-cs3/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function WorkflowCanvas() {
+    function onBeforeRequestSend(args: any) {
+        if (args.requestType === 'ApiRequest') {
+            const request = args.request;
+            if (!request.url.startsWith('https://api.mycompany.com/')) {
+                args.cancel = true;
+                return;
+            }
+            // getUserToken stands for your application's sign-in code.
+            request.headers = (request.headers || []).concat([
+                { key: 'Authorization', value: 'Bearer ' + getUserToken() }
+            ]);
+        }
+    }
+
+    return <WorkflowDesignerComponent id="workflow" height="500px" beforeRequestSend={onBeforeRequestSend} />;
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 

@@ -26,7 +26,20 @@ The commands always appear in the order Execute, Layout, Lock, Undo, Redo, Impor
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/user-interface/user-interface-cs1/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function WorkflowCanvas() {
+    return (
+        <WorkflowDesignerComponent
+            id="workflow"
+            height="500px"
+            toolbarSettings={{ visible: true, items: ['Execute', 'Undo', 'Redo', 'Export'] }}
+        />
+    );
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 
@@ -41,7 +54,20 @@ Use [`canvasToolbarSettings`](https://ej2.syncfusion.com/documentation/api/workf
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/user-interface/user-interface-cs2/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function WorkflowCanvas() {
+    return (
+        <WorkflowDesignerComponent
+            id="workflow"
+            height="500px"
+            canvasToolbarSettings={{ items: ['Add', 'ZoomOut', 'ZoomIn', 'Fit'] }}
+        />
+    );
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 
@@ -78,7 +104,14 @@ Changing `executionLogSettings` at runtime rebuilds the log, so entries from ear
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/user-interface/user-interface-cs4/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function WorkflowCanvas() {
+    return <WorkflowDesignerComponent id="workflow" height="500px" executionLogSettings={{ visible: false }} />;
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 
@@ -98,7 +131,22 @@ The following example creates a read-only viewer without grid lines, the top too
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/user-interface/user-interface-cs3/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function WorkflowViewer() {
+    return (
+        <WorkflowDesignerComponent
+            id="workflow"
+            height="500px"
+            workflowSettings={{ readOnly: true, showGridLines: false }}
+            toolbarSettings={{ visible: false }}
+            stepCollectionSettings={{ visible: false }}
+        />
+    );
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 

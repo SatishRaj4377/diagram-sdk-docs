@@ -83,27 +83,48 @@ Import `WorkflowDesignerComponent` and add it to your React component. Use a ref
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/getting-started/getting-started-cs1/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function App() {
+    const workflowInstance = React.useRef<WorkflowDesignerComponent>(null);
+
+    return (
+        <WorkflowDesignerComponent
+            id="workflow"
+            ref={workflowInstance}
+            width="100%"
+            height="640px"
+        />
+    );
+}
+
+export default App;
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 
 ## Load a workflow
 
-A workflow is a JSON object with steps, connections and optional sticky notes. Import it after creating the designer instance:
+A workflow is a JSON object with steps, connections and optional sticky notes. Import it after creating the designer instance. This example creates a workflow with a Manual Trigger, Set Variable, and End step:
 
 {% tabs %}
-{% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/getting-started/getting-started-cs2/app/index.tsx %}
+{% highlight js tabtitle="index.jsx" %}
+{% include code-snippet/diagram-sdk/react/workflow-designer/getting-started/app/index.jsx %}
+{% endhighlight %}
+{% highlight ts tabtitle="index.tsx" %}
+{% include code-snippet/diagram-sdk/react/workflow-designer/getting-started/app/index.tsx %}
 {% endhighlight %}
 {% endtabs %}
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/react/workflow-designer/getting-started" %}
 
 In this example:
 
 * `schemaVersion` identifies the format of the workflow JSON. Keep it set to `'1.1'`, the value that the **Export** command writes. A workflow without a supported schema version isn't imported.
-* `workflowSteps` defines five steps. Each step has an `id`, a `stepType`, a display `name`, and a `position` on the canvas. For every step type and its settings, see [Workflow steps](./workflow-steps).
-* `props` holds the settings of a step, such as the request `method` and `url` of the `ApiRequest` step.
-* The `Condition` step reads the API response with the expression <code>&#123;&#123;$.previousStep.response.body.paid&#125;&#125;</code>. For more about expressions, see [Expressions and the variable picker](./expressions).
-* `workflowConnections` links the steps. `sourcePort` selects the output port that the connection leaves from; on the `Condition` step, it selects the `true` or `false` branch. When `sourcePort` isn't set, the step's `output` port is used. Every step has a single input port, so a connection always enters its target step through that port and you don't need to specify it. For more about ports, see [Connections and ports](./connections).
+* `workflowSteps` defines three steps: a Manual Trigger, a Set Variable step, and an End step. Each step has an `id`, a `stepType`, a display `name`, and a `position` on the canvas. For every step type and its settings, see [Workflow steps](./workflow-steps).
+* The `SetVariable` step sets the `status` variable to `'Ready'`.
+* `workflowConnections` links the steps. When `sourcePort` isn't set, the step's `output` port is used. Every step has a single input port, so a connection always enters its target step through that port and you don't need to specify it. For more about ports, see [Connections and ports](./connections).
 * `importWorkflow` loads the workflow into the designer.
 
 ## Run the application
@@ -119,8 +140,6 @@ npm run dev
 {% endtabs %}
 
 Click **Execute** in the top toolbar, or press <kbd>Ctrl</kbd> + <kbd>Enter</kbd>, to run the workflow. The execution log shows the result of each step.
-
-N> The sample request uses a placeholder URL, so the **Get order** step fails, the run ends, and the execution log shows the error. To see the full run, replace the URL with an API that returns a JSON object with a `paid` field and allows cross-origin requests (CORS) from your page. When the request succeeds, the run follows the `c2` connection into the input port of the **Is paid?** step, and the condition result then selects the `true` or `false` output port.
 
 If `npm run dev` fails, run `npm install` again to make sure all dependencies are installed. If the default port is already in use, stop the other process or change the port in the Vite configuration.
 

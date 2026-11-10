@@ -23,7 +23,29 @@ To run the workflow from code, call [`runExecution`](https://ej2.syncfusion.com/
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/execution/execution-cs1/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function WorkflowCanvas() {
+    const workflowInstance = React.useRef<WorkflowDesignerComponent>(null);
+
+    async function runWorkflow() {
+        const result = await workflowInstance.current?.runExecution();
+        if (result) {
+            console.log(result.status);
+            result.stepResults.forEach((step) => console.log(step.id, step.response));
+        }
+    }
+
+    return (
+        <>
+            <WorkflowDesignerComponent id="workflow" ref={workflowInstance} height="500px" />
+            <button onClick={runWorkflow}>Run workflow</button>
+        </>
+    );
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 
@@ -45,6 +67,18 @@ The following methods control a run:
 When validation finds errors, the workflow doesn't run: the run ends with the status `'Failed'`, and `result.error.type` is `'Validation'`. To check the workflow first, call `validateWorkflow()`. For details, see [Validation](./validation).
 
 Only one run can be active at a time. Calling `runExecution` while a run is in progress returns a rejected promise.
+
+The following example loads a workflow with a Manual Trigger, Delay, and End step. Click the **Run workflow** button to start the workflow programmatically by using the `runExecution` method:
+
+{% tabs %}
+{% highlight js tabtitle="index.jsx" %}
+{% include code-snippet/diagram-sdk/react/workflow-designer/execution/app/index.jsx %}
+{% endhighlight %}
+{% highlight ts tabtitle="index.tsx" %}
+{% include code-snippet/diagram-sdk/react/workflow-designer/execution/app/index.tsx %}
+{% endhighlight %}
+{% endtabs %}
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/react/workflow-designer/execution" %}
 
 ## Execution events
 
@@ -76,7 +110,32 @@ The following example logs failed steps and the final status of each run:
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/execution/execution-cs2/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function WorkflowCanvas() {
+    function onExecutionStepFailed(args: any) {
+        console.warn(args.step.name, args.error.code, args.error.message);
+    }
+
+    function onExecutionCompleted(args: any) {
+        console.log('Run finished:', args.result.status);
+        if (args.result.error) {
+            console.error(args.result.error.type, args.result.error.message);
+        }
+    }
+
+    return (
+        <WorkflowDesignerComponent
+            id="workflow"
+            height="500px"
+            executionStepFailed={onExecutionStepFailed}
+            executionCompleted={onExecutionCompleted}
+        />
+    );
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 
@@ -90,7 +149,20 @@ To control how quickly a run moves from one step to the next, set the `execution
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/execution/execution-cs3/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function WorkflowCanvas() {
+    return (
+        <WorkflowDesignerComponent
+            id="workflow"
+            executionSettings={{ executionSpeed: 1000 }}
+            height="500px"
+        />
+    );
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 

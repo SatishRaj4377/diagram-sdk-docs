@@ -23,7 +23,40 @@ The following example uses a React ref to update the name and settings of an API
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/update-workflow/update-workflow-cs1/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function WorkflowCanvas() {
+    const workflowInstance = React.useRef<WorkflowDesignerComponent>(null);
+
+    function updateOrder() {
+        const designer = workflowInstance.current;
+        if (!designer) {
+            return;
+        }
+
+        const updated = designer.updateWorkflowItem('getOrder', {
+            name: 'Get order details',
+            props: {
+                method: 'GET',
+                url: 'https://api.mycompany.com/orders/1'
+            }
+        });
+
+        if (!updated) {
+            console.error('The workflow item could not be updated.');
+        }
+    }
+
+    return (
+        <>
+            <WorkflowDesignerComponent id="workflow" ref={workflowInstance} height="500px" />
+            <button type="button" onClick={updateOrder}>Update order request</button>
+        </>
+    );
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 
@@ -37,7 +70,37 @@ Use the designer ref and pass the connection's ID with the properties to change.
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/update-workflow/update-workflow-cs2/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function WorkflowCanvas() {
+    const workflowInstance = React.useRef<WorkflowDesignerComponent>(null);
+
+    function updateConnection() {
+        const designer = workflowInstance.current;
+        if (!designer) {
+            return;
+        }
+
+        const updated = designer.updateWorkflowItem('toApproved', {
+            label: 'Approved',
+            type: 'Straight'
+        });
+
+        if (!updated) {
+            console.error('The workflow connection could not be updated.');
+        }
+    }
+
+    return (
+        <>
+            <WorkflowDesignerComponent id="workflow" ref={workflowInstance} height="500px" />
+            <button type="button" onClick={updateConnection}>Update connection</button>
+        </>
+    );
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 
@@ -49,7 +112,37 @@ Sticky notes can be updated by changing their text, position, size, or style. Fo
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/update-workflow/update-workflow-cs3/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function WorkflowCanvas() {
+    const workflowInstance = React.useRef<WorkflowDesignerComponent>(null);
+
+    function updateOrderNote() {
+        const designer = workflowInstance.current;
+        if (!designer) {
+            return;
+        }
+
+        const updated = designer.updateWorkflowItem('orderNote', {
+            text: 'Orders are processed by the fulfillment team.',
+            position: { x: 420, y: 180 }
+        });
+
+        if (!updated) {
+            console.error('The sticky note could not be updated.');
+        }
+    }
+
+    return (
+        <>
+            <WorkflowDesignerComponent id="workflow" ref={workflowInstance} height="500px" />
+            <button type="button" onClick={updateOrderNote}>Update sticky note</button>
+        </>
+    );
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 
@@ -68,7 +161,36 @@ Unless `silent` is `true`, a successful update triggers `workflowChanged`. Pass 
 
 {% tabs %}
 {% highlight ts tabtitle="App.tsx" %}
-{% include code-snippet/diagram-sdk/react/workflow-designer/update-workflow/update-workflow-cs4/app/index.tsx %}
+{% raw %}
+import * as React from 'react';
+import { WorkflowDesignerComponent } from '@syncfusion/ej2-react-workflow-designer';
+
+function WorkflowCanvas() {
+    const workflowInstance = React.useRef<WorkflowDesignerComponent>(null);
+
+    function updateOrderSilently() {
+        const designer = workflowInstance.current;
+        if (!designer) {
+            return;
+        }
+
+        const updated = designer.updateWorkflowItem('getOrder', {
+            name: 'Get order details'
+        }, true);
+
+        if (!updated) {
+            console.error('The workflow item could not be updated.');
+        }
+    }
+
+    return (
+        <>
+            <WorkflowDesignerComponent id="workflow" ref={workflowInstance} height="500px" />
+            <button type="button" onClick={updateOrderSilently}>Update step without workflowChanged</button>
+        </>
+    );
+}
+{% endraw %}
 {% endhighlight %}
 {% endtabs %}
 
