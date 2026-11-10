@@ -39,18 +39,17 @@ The output ports of a step depend on its type:
 | `End` | None |
 | All other steps | `output` |
 
-The following connections route the two outcomes of an Approve step to different steps:
+The following example connects the `true` and `false` output ports of a Condition step to different End steps. Run the workflow to see which branch is followed based on the configured condition:
 
 {% tabs %}
-{% highlight js tabtitle="app.js" %}
-
-const connections = [
-    { id: 'toApproved', sourceStepId: 'approval', sourcePort: 'approved', targetStepId: 'createOrder' },
-    { id: 'toDeclined', sourceStepId: 'approval', sourcePort: 'declined', targetStepId: 'notifyUser' }
-];
-
+{% highlight js tabtitle="index.js" %}
+{% include code-snippet/diagram-sdk/javascript/workflow-designer-connections/index.js %}
+{% endhighlight %}
+{% highlight html tabtitle="index.html" %}
+{% include code-snippet/diagram-sdk/javascript/workflow-designer-connections/index.html %}
 {% endhighlight %}
 {% endtabs %}
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/workflow-designer-connections" %}
 
 ## Create connections interactively
 

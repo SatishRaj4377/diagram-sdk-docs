@@ -13,20 +13,17 @@ domainurl: https://help.syncfusion.com/diagram-sdk
 
 The designer validates the workflow before every run. Errors stop the run, while warnings and info messages don't. The canvas also marks problems on the affected steps.
 
-To validate the workflow from code, call [`validateWorkflow`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#validateworkflow):
+To validate the workflow from code, call [`validateWorkflow`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#validateworkflow). The following example validates the loaded workflow when the **Validate workflow** button is clicked:
 
 {% tabs %}
-{% highlight js tabtitle="app.js" %}
-
-const result = designer.validateWorkflow();
-if (!result.isValid) {
-    result.messages
-        .filter((m) => m.type === 'Error')
-        .forEach((m) => console.log(m.code, m.stepId, m.message));
-}
-
+{% highlight js tabtitle="index.js" %}
+{% include code-snippet/diagram-sdk/javascript/workflow-designer-validation/index.js %}
+{% endhighlight %}
+{% highlight html tabtitle="index.html" %}
+{% include code-snippet/diagram-sdk/javascript/workflow-designer-validation/index.html %}
 {% endhighlight %}
 {% endtabs %}
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/javascript/workflow-designer-validation" %}
 
 Each `WorkflowValidationMessage` contains the following properties:
 
