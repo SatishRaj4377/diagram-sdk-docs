@@ -13,31 +13,17 @@ domainurl: https://help.syncfusion.com/diagram-sdk
 
 The designer validates the workflow before every run. Errors stop the run, while warnings and info messages don't. The canvas also marks problems on the affected steps.
 
-To validate the workflow from code, call [`validateWorkflow`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#validateworkflow):
+To validate the workflow from code, call [`validateWorkflow`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#validateworkflow). The following sample loads a valid workflow and displays the validation result when you click the button:
 
 {% tabs %}
 {% highlight ts tabtitle="app.component.ts" %}
-
-import { Component, ViewChild } from '@angular/core';
-import { WorkflowDesignerModule, WorkflowDesignerComponent } from '@syncfusion/ej2-angular-workflow-designer';
-
-@Component({
-    selector: 'app-root',
-    standalone: true,
-    imports: [WorkflowDesignerModule],
-    template: "<ejs-workflowdesigner #workflow id=\"workflow\" height=\"500px\"></ejs-workflowdesigner><button type=\"button\" (click)=\"validateWorkflow()\">Validate workflow</button>"
-})
-export class AppComponent {
-    @ViewChild('workflow') public workflowDesigner!: WorkflowDesignerComponent;
-
-    validateWorkflow(): void {
-        const result = this.workflowDesigner.validateWorkflow();
-        if (!result.isValid) result.messages.filter((message: any) => message.type === 'Error').forEach((message: any) => console.log(message.code, message.stepId, message.message));
-    }
-}
-
+{% include code-snippet/diagram-sdk/angular/workflow-designer/validation/src/app.component.ts %}
+{% endhighlight %}
+{% highlight html tabtitle="app.component.html" %}
+{% include code-snippet/diagram-sdk/angular/workflow-designer/validation/src/app.component.html %}
 {% endhighlight %}
 {% endtabs %}
+{% previewsample "https://help.syncfusion.com/samples/diagram-sdk/angular/workflow-designer/validation" %}
 
 Each `WorkflowValidationMessage` contains the following properties:
 

@@ -64,28 +64,17 @@ Values from earlier steps are inserted into `args.notification` as they are. Esc
 
 Handle the `customExecutionRequested` event to run the work of Custom steps. `actionType` identifies the action, and `input` holds the step's input with expressions already resolved. When no handler is bound to this event, Custom steps fail.
 
+The following sample handles a Custom step that creates a mock invoice and calls `complete` with the invoice data:
+
 {% tabs %}
 {% highlight ts tabtitle="app.component.ts" %}
-
-import { Component } from '@angular/core';
-import { WorkflowDesignerModule } from '@syncfusion/ej2-angular-workflow-designer';
-
-@Component({
-    selector: 'app-root',
-    standalone: true,
-    imports: [WorkflowDesignerModule],
-    template: "<ejs-workflowdesigner id=\"workflow\" height=\"500px\" (customExecutionRequested)=\"onCustomExecutionRequested($event)\"></ejs-workflowdesigner>"
-})
-export class AppComponent {
-
-    onCustomExecutionRequested(args: any): void {
-        if (args.actionType === 'createInvoice') invoiceService.create(args.input).then((invoice: any) => args.complete(invoice), (error: Error) => args.fail(error));
-        else args.fail(new Error('Unknown action: ' + args.actionType));
-    }
-}
-
+{% include code-snippet/diagram-sdk/angular/workflow-designer/host-integration/src/app.component.ts %}
+{% endhighlight %}
+{% highlight html tabtitle="app.component.html" %}
+{% include code-snippet/diagram-sdk/angular/workflow-designer/host-integration/src/app.component.html %}
 {% endhighlight %}
 {% endtabs %}
+{% previewsample "https://help.syncfusion.com/samples/diagram-sdk/angular/workflow-designer/host-integration" %}
 
 ## Credentials
 

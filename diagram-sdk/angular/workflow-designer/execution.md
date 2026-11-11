@@ -19,32 +19,17 @@ Users run the whole workflow with the **Execute** toolbar command or by pressing
 
 Users can also execute one selected step on its own, for example to check its settings. Only that step runs; the run doesn't continue to the steps connected after it.
 
-To run the workflow from code, call [`runExecution`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#runexecution). It returns a promise that resolves with a `WorkflowExecutionResult` when the run ends:
+To run the workflow from code, call [`runExecution`](https://ej2.syncfusion.com/documentation/api/workflow-designer/#runexecution). It returns a promise that resolves with a `WorkflowExecutionResult` when the run ends. The following sample loads a Manual Trigger, a one-second Delay, and an End step, then runs the workflow from a button:
 
 {% tabs %}
 {% highlight ts tabtitle="app.component.ts" %}
-
-import { Component, ViewChild } from '@angular/core';
-import { WorkflowDesignerModule, WorkflowDesignerComponent } from '@syncfusion/ej2-angular-workflow-designer';
-
-@Component({
-    selector: 'app-root',
-    standalone: true,
-    imports: [WorkflowDesignerModule],
-    template: "<ejs-workflowdesigner #workflow id=\"workflow\" height=\"500px\"></ejs-workflowdesigner><button type=\"button\" (click)=\"runWorkflow()\">Run workflow</button>"
-})
-export class AppComponent {
-    @ViewChild('workflow') public workflowDesigner!: WorkflowDesignerComponent;
-
-    async runWorkflow(): Promise<void> {
-        const result = await this.workflowDesigner.runExecution();
-        console.log(result.status);
-        result.stepResults.forEach((step) => console.log(step.id, step.response));
-    }
-}
-
+{% include code-snippet/diagram-sdk/angular/workflow-designer/execution/src/app.component.ts %}
+{% endhighlight %}
+{% highlight html tabtitle="app.component.html" %}
+{% include code-snippet/diagram-sdk/angular/workflow-designer/execution/src/app.component.html %}
 {% endhighlight %}
 {% endtabs %}
+{% previewsample "https://help.syncfusion.com/samples/diagram-sdk/angular/workflow-designer/execution" %}
 
 `WorkflowExecutionResult` contains the following properties:
 
