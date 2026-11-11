@@ -71,31 +71,17 @@ Values from earlier steps are inserted into `args.notification` as they are. Esc
 
 Handle the `customExecutionRequested` event to run the work of Custom steps. `actionType` identifies the action, and `input` holds the step's input with expressions already resolved. When no handler is bound to this event, Custom steps fail.
 
+The following sample handles a Custom step that creates a mock invoice and calls `complete` with the invoice data:
+
 {% tabs %}
-{% highlight html tabtitle="App.vue" %}
-
-<template>
-    <ejs-workflowdesigner :customExecutionRequested="customExecutionRequested"></ejs-workflowdesigner>
-</template>
-
-<script setup>
-import { WorkflowDesignerComponent as EjsWorkflowdesigner } from '@syncfusion/ej2-vue-workflow-designer';
-
-const customExecutionRequested = (args) => {
-    if (args.actionType === 'createInvoice') {
-        // invoiceService stands for your application's invoicing code.
-        invoiceService.create(args.input).then(
-            (invoice) => args.complete(invoice),
-            (error) => args.fail(error)
-        );
-    } else {
-        args.fail(new Error('Unknown action: ' + args.actionType));
-    }
-};
-</script>
-
+{% highlight html tabtitle="Composition API (~/src/App.vue)" %}
+{% include code-snippet/diagram-sdk/vue/workflow-designer/host-integration/app-composition.vue %}
+{% endhighlight %}
+{% highlight html tabtitle="Options API (~/src/App.vue)" %}
+{% include code-snippet/diagram-sdk/vue/workflow-designer/host-integration/app.vue %}
 {% endhighlight %}
 {% endtabs %}
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/vue/workflow-designer/host-integration" %}
 
 ## Credentials
 

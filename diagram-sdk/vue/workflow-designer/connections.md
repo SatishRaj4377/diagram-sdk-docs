@@ -38,18 +38,17 @@ The output ports of a step depend on its type:
 | `End` | None |
 | All other steps | `output` |
 
-The following connections route the two outcomes of an Approve step to different steps:
+The following example connects the `true` and `false` output ports of a Condition step to different End steps. Run the workflow to see which branch is followed when `10` is greater than `5`:
 
 {% tabs %}
-{% highlight js tabtitle="App.vue" %}
-
-const connections = [
-    { id: 'toApproved', sourceStepId: 'approval', sourcePort: 'approved', targetStepId: 'createOrder' },
-    { id: 'toDeclined', sourceStepId: 'approval', sourcePort: 'declined', targetStepId: 'notifyUser' }
-];
-
+{% highlight html tabtitle="Composition API (~/src/App.vue)" %}
+{% include code-snippet/diagram-sdk/vue/workflow-designer/connections/app-composition.vue %}
+{% endhighlight %}
+{% highlight html tabtitle="Options API (~/src/App.vue)" %}
+{% include code-snippet/diagram-sdk/vue/workflow-designer/connections/app.vue %}
 {% endhighlight %}
 {% endtabs %}
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/vue/workflow-designer/connections" %}
 
 ## Create connections interactively
 

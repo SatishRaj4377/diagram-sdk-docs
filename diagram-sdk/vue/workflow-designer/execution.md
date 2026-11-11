@@ -18,32 +18,17 @@ Users run the whole workflow with the **Execute** toolbar command or by pressing
 
 Users can also execute one selected step on its own, for example to check its settings. Only that step runs; the run doesn't continue to the steps connected after it.
 
-To run the workflow from code, call [`runExecution`](https://ej2.syncfusion.com/vue/documentation/api/workflow-designer/#runexecution). It returns a promise that resolves with a `WorkflowExecutionResult` when the run ends:
+To run the workflow from code, call [`runExecution`](https://ej2.syncfusion.com/vue/documentation/api/workflow-designer/#runexecution). It returns a promise that resolves with a `WorkflowExecutionResult` when the run ends. The following sample loads a Manual Trigger, a one-second Delay, and an End step, then runs the workflow from a button:
 
 {% tabs %}
-{% highlight html tabtitle="App.vue" %}
-
-<template>
-    <ejs-workflowdesigner ref="designer"></ejs-workflowdesigner>
-</template>
-
-<script setup>
-import { onMounted, ref } from 'vue';
-import { WorkflowDesignerComponent as EjsWorkflowdesigner } from '@syncfusion/ej2-vue-workflow-designer';
-const designer = ref(null);
-
-onMounted(() => {
-designer.value.ej2Instances.runExecution().then((result) => {
-    console.log(result.status); // 'Completed', 'Failed', 'Stopped', or 'Cancelled'
-    result.stepResults.forEach((step) => {
-        console.log(step.id, step.response); // Each step that ran, in run order
-    });
-});
-});
-</script>
-
+{% highlight html tabtitle="Composition API (~/src/App.vue)" %}
+{% include code-snippet/diagram-sdk/vue/workflow-designer/execution/app-composition.vue %}
+{% endhighlight %}
+{% highlight html tabtitle="Options API (~/src/App.vue)" %}
+{% include code-snippet/diagram-sdk/vue/workflow-designer/execution/app.vue %}
 {% endhighlight %}
 {% endtabs %}
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/vue/workflow-designer/execution" %}
 
 `WorkflowExecutionResult` contains the following properties:
 

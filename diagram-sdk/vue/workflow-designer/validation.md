@@ -12,32 +12,17 @@ domainurl: https://help.syncfusion.com/diagram-sdk
 
 The designer validates the workflow before every run. Errors stop the run, while warnings and info messages don't. The canvas also marks problems on the affected steps.
 
-To validate the workflow from code, call [`validateWorkflow`](https://ej2.syncfusion.com/vue/documentation/api/workflow-designer/#validateworkflow):
+To validate the workflow from code, call [`validateWorkflow`](https://ej2.syncfusion.com/vue/documentation/api/workflow-designer/#validateworkflow). The following sample loads a valid workflow and displays the validation result when you click the button:
 
 {% tabs %}
-{% highlight html tabtitle="App.vue" %}
-
-<template>
-    <ejs-workflowdesigner ref="designer"></ejs-workflowdesigner>
-</template>
-
-<script setup>
-import { onMounted, ref } from 'vue';
-import { WorkflowDesignerComponent as EjsWorkflowdesigner } from '@syncfusion/ej2-vue-workflow-designer';
-const designer = ref(null);
-
-onMounted(() => {
-    const result = designer.value.ej2Instances.validateWorkflow();
-    if (!result.isValid) {
-        result.messages
-            .filter((m) => m.type === 'Error')
-            .forEach((m) => console.log(m.code, m.stepId, m.message));
-    }
-});
-</script>
-
+{% highlight html tabtitle="Composition API (~/src/App.vue)" %}
+{% include code-snippet/diagram-sdk/vue/workflow-designer/validation/app-composition.vue %}
+{% endhighlight %}
+{% highlight html tabtitle="Options API (~/src/App.vue)" %}
+{% include code-snippet/diagram-sdk/vue/workflow-designer/validation/app.vue %}
 {% endhighlight %}
 {% endtabs %}
+{% previewsample "https://help.syncfusion.com/code-snippet/diagram-sdk/vue/workflow-designer/validation" %}
 
 Each `WorkflowValidationMessage` contains the following properties:
 
